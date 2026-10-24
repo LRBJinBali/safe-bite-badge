@@ -13,10 +13,10 @@ The rules every screen, endpoint and seed script must keep. Each one traces to a
 3. **Strict gate.** Only stalls on the 113 and 114 lists and restaurants on the 優/良 list (chains removed) appear and can receive badges. A lapsed stall stays listed with its history, loses the mark, and cannot receive new badges until it renews. Wording is "label ended", never "failed".
 4. **Certified or not, nothing finer.** Show only that a stall or restaurant is officially certified. The gold/silver (金質/銀質) and 優/良 levels are never shown, sorted, ranked or filtered by; the data keeps them but the UI ignores them.
 5. **One person, one count per badge.** Up to four badges in one award; each badge once per person and stall, ever; one award session per person and stall per month. Stall counts are people per badge; the city counter counts badges newly given this month.
-6. **No personal data, no free text.** Diners have no accounts: anonymous per-browser limits, no notes. Vendors have no sign-in either: a made-up practice venue is tied to the browser, with a resume link to pick it up elsewhere (decided 24 Oct; no email address is ever collected). New vendor venues are made up.
+6. **No personal data, no free text.** Three access levels (decided 24 Oct): diners have no accounts (anonymous per-browser limits plus basic spam protection, no notes); eatery owners and the city go through a simulated email-code sign-in. Only made-up addresses ending in `@example.test` are accepted, no email is ever sent, and the code shows on screen and fills itself in, labelled simulated. No real email address is collected. New vendor venues are made up.
 7. **Colour is never the only signal.** Every badge shows shape, icon and text label, including in filters, counts and the share card.
-8. **Label what is simulated.** Seed votes, made-up venues, visit-request routing and status, streaks and seed-vote milestones carry a "simulated" tag in the UI and the README.
-9. **Anything a voter might try must work**, on both the diner and vendor sides. Only steps that need the city itself (issuing the mark, receiving visit requests) are simulated.
+8. **Label what is simulated.** Seed votes, made-up venues, the vendor and city sign-in, visit-request routing and status, streaks and seed-vote milestones carry a "simulated" tag in the UI and the README.
+9. **Anything a voter might try must work**, on both the diner and vendor sides. Only steps that need the city itself (issuing the mark, acting on visit requests) are simulated; the city view shows real badge counts and stored requests, labelled as a demo of what the department would see.
 
 ## Known gaps
 
@@ -28,7 +28,8 @@ What is missing or unverified today. Remove an item when it is fixed.
 - **Demo stall.** One labelled made-up stall, exempt from the per-person limits and resettable, so the award flow can be shown repeatedly on stage. Not built yet.
 - **Seed votes not generated.** They must look real: no seating badges on stalls without seating, and we have no seated/takeaway data.
 - **Readiness form currency unconfirmed.** The check mirrors the 114 form (`Data/004-assessment-form-114.pdf`); confirm with the department that it is current.
-- **Vote stuffing.** Per-browser limits are easy to bypass. Say so in the README.
+- **Vote stuffing.** Per-browser limits plus basic spam protection (Turnstile and a per-IP rate limit) stop scripts, not a determined person with several browsers. Say so in the README.
+- **Sign-in protects nothing.** It is simulated, so anyone can sign in as any made-up vendor or as the city. Fine while every venue is made up and real stalls stay read-only; say so in the README.
 - **Restaurants have no certification year**, so no streaks or lapse logic for them.
 
 ## Roadmap
@@ -60,7 +61,7 @@ Should:
 8. Generated share card image.
 9. News feed with fixed positive reactions. If trimmed, keep "newly certified" with reactions (all real data).
 
-**Cut order if time runs short (decided 24 Oct).** Scope stays full (516 stalls, 876 restaurants, all five vendor parts). Cut in this order: vendor preview, registration walkthrough, saved progress on the vendor side. Keep find my stall, the readiness check and the visit request until last; restaurants and share previews stay.
+**Cut order if time runs short (decided 24 Oct).** Scope stays full (516 stalls, 876 restaurants, all five vendor parts). Cut in this order: city view, vendor preview, registration walkthrough, saved progress on the vendor side. Keep find my stall, the readiness check and the visit request until last; restaurants and share previews stay.
 
 **Build order.** The vendor side runs alongside Must 1 to 4, not after. If short of time, build vendor part 4 (find my stall) first, since it reuses diner data and components, then parts 1 to 3.
 
@@ -69,7 +70,8 @@ Should:
 - Which data is real and which is simulated.
 - Open-source packages and AI tools used.
 - The "100-day" note: which department, which data, what cost (see "100-day plan for the city" below).
-- That per-browser vote limits are easy to bypass.
+- That per-browser vote limits are easy to bypass, even with the spam protection.
+- That sign-in is simulated: made-up `@example.test` addresses only, no email sent, anyone can sign in as any role.
 - Post-MVP ideas: monthly missions, district passport, monthly district picks, shared city goal, a seated/takeaway tag per stall, a proper chain/franchise filter for restaurants.
 
 ## Decisions log (24 Oct 2026)
@@ -81,7 +83,12 @@ Team decisions that shape the build. The PRD below already reflects them; this l
 - **No free-text notes.**
 - **"Easy to Get In" works like the other badges.** Diners award it, never the vendor, with a short hint like the others. It recognises physical access (for example a cramped market layout that still works for wheelchair users or older people). Community experience, not an inspection.
 - **Certified or not, nothing finer** (replaces "tier is shown, never sorted"). Gold/silver for stalls and 優/良 for restaurants are consolidated into one "Officially certified" mark; levels are never displayed.
-- **No vendor sign-in** (replaces the emailed one-time code). A made-up practice venue belongs to the browser, with a resume link to open it elsewhere. No email address or other personal data is collected, and no email-delivery risk on demo day. The find-my-stall view of real stalls stays read-only, so nobody can claim a real stall. Diners stay anonymous.
+- **Three access levels** (replaces "no vendor sign-in" and its browser-bound resume link).
+  - **Diners:** no sign-in. Per-browser limits as before, plus basic spam protection on awards and reactions: an invisible Cloudflare Turnstile check and a per-IP rate limit. Diners stay anonymous.
+  - **Eatery owners:** simulated email-code sign-in. Made-up practice venues, checklists and visit requests belong to the account, so they open on any device with the same made-up address. Signing in does not prove ownership of a real stall, so the find-my-stall view stays read-only and nobody can claim a real stall.
+  - **City:** the same simulated sign-in, reached through a "sign in as the city (demo)" choice, open to anyone so judges and voters can try it. Opens a city view: the monthly badge report and the stored visit requests, read-only and labelled as a demo of what the department would see. The city still cannot issue the mark, and visit status stays simulated.
+  - **No real email** (replaces the emailed code drafted earlier today). Only addresses ending in `@example.test` are accepted, nothing is sent, and the code shows on screen and fills itself in, in dev and production alike, labelled "simulated sign-in: no email is sent". No Cloudflare Email Service, no delivery risk on demo day. Sending real codes moves to the 100-day plan.
+  - **Dev:** Turnstile uses its test keys.
 - **Demo flow.** The diner leads the 2-minute demo: award badges, then switch to the vendor pane and see the stall's "this month" figure move. A labelled demo stall, exempt from the per-person limits and resettable, lets the award flow be shown repeatedly. Real stalls keep the real rules.
 - **No auto-lapse.** Lapse is not computed from the estimated end date, because about half the list (the 113 stalls) would flip to "label ended" mid-vote. Stalls show their certified years; a few hand-picked demo stalls show "label ended".
 - **Scope and cut order.** Restaurants and the full five-part vendor side stay in the MVP. If time runs short, cut the vendor preview, then the registration walkthrough, then saved vendor progress.
@@ -155,7 +162,7 @@ Three groups use the product. Diners and eatery owners are both first-class: the
 | --- | --- | --- |
 | Diners (Taipei residents and visitors) | A simple way to find and recognise eateries worth supporting | Map and list of certified eateries; award colour badges |
 | Eatery owners | Visibility for being clean and well run | Official mark plus community badges; a read-only view of their own stall's badges and certified years; a working path to get ready and request an assessment |
-| City (Health Department) | Public awareness of certification and a low-cost way to keep residents engaged | Open lists, a monthly badge count, a 100-day adoption plan |
+| City (Health Department) | Public awareness of certification and a low-cost way to keep residents engaged | Open lists, a signed-in city view with the monthly badge report and visit requests, a 100-day adoption plan |
 
 ## Non-goals
 
@@ -170,7 +177,17 @@ The product celebrates good eateries; it never judges or ranks them.
 
 ## Key flows
 
-The diner flow and the eatery owner flow both work live on one shared backend; only steps that need the city itself (issuing the mark, receiving visit requests) are simulated and labelled. The demo shows them side by side from a home screen with two doors ("I'm a diner" and "I run a food stall"). The city flow is README only.
+The diner flow and the eatery owner flow both work live on one shared backend; only steps that need the city itself (issuing the mark, receiving visit requests) are simulated and labelled. The demo shows them side by side from a home screen with two doors ("I'm a diner" and "I run a food stall"). The city view is reached by its own sign-in link, not a third door.
+
+**Access levels**
+
+| User | Sign-in | Protection |
+| --- | --- | --- |
+| Diner | None | Per-browser limits, invisible Turnstile check, per-IP rate limit |
+| Eatery owner | Simulated email code (`@example.test` only) | Session cookie; real stalls read-only |
+| City | Simulated email code, "sign in as the city (demo)" | Session cookie; read-only city view |
+
+No email is ever sent: the code shows on screen and fills itself in, labelled simulated.
 
 **Diner**
 
@@ -183,16 +200,18 @@ The diner flow and the eatery owner flow both work live on one shared backend; o
 
 **Eatery owner**
 
+0. Sign in with a made-up address and the on-screen code (simulated). Find my stall works without signing in; the readiness path needs it so progress follows the owner across devices.
 1. Find my stall (already certified): search the 516 listed stalls and open a read-only vendor view with badges received this month, certified years and the share link. No claiming or editing, so no one can pose as a real stall. A lapsed stall sees "label ended, here's how to renew", which leads into the steps below.
 2. Run a readiness check that mirrors the 114 assessment form: 10 inspection items, plus 6 guidance items such as ingredient source documents and staff health check reports. Progress is saved and ends in a "ready to request a visit" result.
 3. Follow step-by-step help for food business registration and ingredient registration, ticking off each step (saved), with links to the real government platforms.
 4. Request a coaching visit. The request is stored, gets a reference number and a status page (received, scheduled, assessed). It does not reach the Health Department or any association; the routing and status changes are simulated and say so.
 5. See a labelled preview of what diners will see once the stall is certified, built with the same stall component as the diner side. The stall never appears in the diner list and cannot receive badges before it is certified.
 
-**City (README only)**
+**City**
 
-1. The Health Department publishes its lists as open data.
-2. It receives coaching-visit requests and a monthly badge report.
+1. Choose "sign in as the city (demo)" and sign in with a made-up address and the on-screen code (simulated).
+2. See the monthly badge report (badges given this month, city-wide and per market; no stall rankings) and the stored coaching-visit requests, both read-only and labelled as a demo.
+3. Beyond the app (README only): the Health Department publishes its lists as open data and acts on visit requests.
 
 ## MVP scope
 
@@ -206,6 +225,8 @@ The MVP covers all 516 stalls on the 113 and 114 lists, shown at market level, a
 | Must | City counter: "Taipei has received X badges this month" | Simulated |
 | Must | Share link for each stall with a link preview for LINE and Messenger, and a share button, so people can recommend places to friends and family | Real list data plus live badge counts |
 | Must | Eatery owner side: find-my-stall vendor view, readiness check, registration walkthrough, visit request with status, all saved to the backend. If short of time, find-my-stall first | Real list data for certified stalls; made-up venues and simulated visit routing for new stalls |
+| Must | Access levels: diners anonymous with spam protection; eatery owner and city sign-in by a simulated email code | Made-up `@example.test` addresses; no email sent |
+| Should | City view: monthly badge report and visit requests, read-only, behind city sign-in | Live badge counts and stored requests; labelled demo |
 | Should | Badge filters: show only stalls that have received a chosen badge | Simulated |
 | Should | Generated share card image: stall name, market, official mark with year, and its badges by shape, icon and label | Real list data plus live badge counts |
 | Should | News feed: newly certified stalls, certification streaks and per-stall badge milestones, with fixed positive reactions. If trimmed, keep newly certified with reactions | Real list data for newly certified; streaks and seed-vote milestones simulated and tagged |
@@ -287,15 +308,15 @@ Sources: [Health Department 2018 pilot proposal](https://www-ws.gov.taipei/001/U
 - **Official versus unofficial blur.** An official-looking mark next to citizen badges could suggest the city runs this. Show an "unofficial" line in the UI.
 - **Eatery owner flow mistaken for a real application.** Because it works end to end, a vendor could think a visit request reaches the city. Label the routing and status as simulated on the request and status pages.
 - **Wording.** "Sit Down Easy" (放心坐下) could read as a safety endorsement, which the design says it will not claim.
-- **Vote stuffing.** Per-browser limits are easy to bypass. Say so in the README. Badge milestones in the news feed raise the incentive, so use a few fixed thresholds and never show a live race.
+- **Simulated sign-in read as real.** A judge could think the app collects or checks emails. The sign-in screen says it is simulated and accepts only `@example.test` addresses.
+- **Vote stuffing.** Per-browser limits plus Turnstile and a per-IP rate limit only stop scripts. Say so in the README. Badge milestones in the news feed raise the incentive, so use a few fixed thresholds and never show a live race.
 - **Strict gate.** Hygienic eateries that are not on the lists are invisible.
 - **Expiring labels.** The 113 round (237 stalls) was announced on 28 Oct 2024, so those labels reach the end of their 2-year term within days. Show the certification year, and check whether the department is re-assessing those six markets in 2026. The lists carry no expiry date, so the end date is estimated as two years after the announcement.
 - **Outdated checklist.** The 2018 checklist was revised in 2023, and 2018 sources disagree on its length (10 items in the proposal, 20 in one news report). The 114 form is in hand: 10 inspection items and 6 guidance items. Build the readiness check from it, and confirm with the department that it is still current.
 
 **Open questions**
 
-- Which side, diner or vendor, leads the first 30 seconds of the demo?
-- Does "support" mean recognition and discovery only, or money later?
+- Which side, diner or vendor, leads the first 30 seconds of the demo?- Does "support" mean recognition and discovery only, or money later?
 - Should hygienic but uncertified eateries be able to join some other way?
 - Health Department: are invoices spot-checked for ingredient registration? Has a label ever been revoked? (The 2018 rules allowed it after a food-poisoning incident; no actual case found.) Can the lists be opened as an API? Can stalls join the 優/良 grading?
 
@@ -308,5 +329,6 @@ If the city adopts this, the first step is for the Health Department to open its
 | Publish the Smile Label and 優/良 lists as an open dataset or API, with certification year and a notes field | Health Department | Certified stall and venue lists | To confirm |
 | Route coaching-visit requests from vendors who want to get assessed | Health Department, Market Office, night-market associations | Stall lists, request form | To confirm |
 | Pilot one market with the community badges and a monthly badge report | Health Department with one market association | Badge counts | To confirm |
+| Turn on real sign-in: codes sent to real vendor addresses, and city access limited to department staff | Health Department | Vendor and staff contact addresses | To confirm |
 
 One cost anchor: the 2018 pilot paid contracted assessors NT$1,371,600 to coach and assess 178 stalls, roughly NT$7,700 per stall ([pilot proposal](https://www-ws.gov.taipei/001/Upload/371/relfile/18928/8057750/8872aec1-ed27-42e2-9f99-6558efb30e14.pdf)). This is a rough reference, not a savings estimate.

@@ -19,7 +19,10 @@ The commands in `CLAUDE.md` and `.worktreeinclude` assume this stack.
 
 - **Official lists are static.** `Data/006-stalls.json` and `Data/007-restaurants.json` (rows with `is_chain = false` only) are bundled at build time and read on the server. It never goes in D1 and is never edited by the app.
 - **Everything people do goes in D1:** badge awards, reactions, vendor venues, checklists, visit requests. Seed votes go in D1 too, with `simulated = 1`.
-- **Identity is a per-browser anonymous id**, a random UUID in an httpOnly cookie set on first request. Diners have no accounts and no personal data. Vendors have no sign-in: a made-up practice venue is tied to the same browser id, and its unguessable id in a resume link opens it elsewhere. No email address is collected. Real stalls stay read-only. The per-browser id is easy to bypass (clear cookies); the README says so.
+- **Identity has three levels (proposed).**
+  - **Diner:** a per-browser anonymous id, a random UUID in an httpOnly cookie set on first request. No accounts, no personal data. Award and reaction POSTs also need a Turnstile token (verified server-side with Siteverify) and pass a per-IP rate limit. The per-browser id is easy to bypass (clear cookies); the README says so.
+  - **Eatery owner and city:** simulated email-code sign-in. The server rejects any address not ending in `@example.test`, sends nothing, and returns a 6-digit code (valid 10 minutes) that the form shows and prefills, in every environment. On success, an httpOnly session cookie with a role (`vendor` or `city`, picked on the sign-in screen). The made-up address is the account key. Made-up venues belong to the account; real stalls stay read-only.
+  - **Dev:** Turnstile uses its test keys.
 
 ## Data model (D1, proposed)
 
@@ -39,7 +42,11 @@ award_sessions (stall_id, browser_id, month, PRIMARY KEY (stall_id, browser_id, 
 
 reactions (item_id, browser_id, kind, PRIMARY KEY (item_id, browser_id, kind))  -- kind: 'congrats' | 'want' | 'been'
 
-vendor_venues (id, browser_id, name, market, created_at)                -- made-up venues only
+accounts (id, email, role, created_at)                                  -- email: made-up '@example.test' only; UNIQUE (email, role)
+login_codes (email, code, expires_at)                                   -- short-lived; deleted on success
+sessions (id, account_id, expires_at)                                   -- id is the httpOnly cookie value
+
+vendor_venues (id, account_id, name, market, created_at)                -- made-up venues only
 readiness_items (venue_id, item_key, checked, PRIMARY KEY (venue_id, item_key))
 registration_steps (venue_id, step_key, done, PRIMARY KEY (venue_id, step_key))
 visit_requests (ref, venue_id, created_at)                              -- status is derived, see below
@@ -76,7 +83,23 @@ Diner:
 | GET | `/api/feed?stall=` | News items (newly certified, streaks, milestones), each with a `simulated` flag and reaction counts |
 | POST | `/api/feed/:itemId/reactions` | Body `{ kind }`. One of each kind per browser per item. |
 
-Vendor:
+Sign-in (eatery owner and city):
+
+| Method | Path | Purpose |
+| --- | --- | --- |
+| POST | `/api/auth/code` | Body `{ email, role }`. Rejects addresses not ending in `@example.test`. Sends nothing; returns the code for the form to show and prefill. |
+| POST | `/api/auth/verify` | Body `{ email, code }`. Sets the session cookie. |
+| POST | `/api/auth/logout` | Ends the session |
+| GET | `/api/auth/me` | Role of the current session, if any |
+
+City (city session required):
+
+| Method | Path | Purpose |
+| --- | --- | --- |
+| GET | `/api/city/report?month=` | Badges given that month, city-wide and per market. No per-stall ranking. |
+| GET | `/api/city/visit-requests` | Stored visit requests with their simulated status |
+
+Vendor (venue routes need a vendor session; find-my-stall is open):
 
 | Method | Path | Purpose |
 | --- | --- | --- |
@@ -98,7 +121,9 @@ Vendor:
 | `/feed` | Diner | Full news feed with reactions |
 | `/vendor` | Vendor | Find my stall, or start the readiness path |
 | `/vendor/stall/[id]` | Vendor | Read-only vendor view; lapsed stalls get "label ended, here's how to renew" |
-| `/vendor/check`, `/vendor/register`, `/vendor/visit/[ref]`, `/vendor/preview` | Vendor | Readiness check, registration walkthrough, visit status, "what diners will see" |
+| `/vendor/check`, `/vendor/register`, `/vendor/visit/[ref]`, `/vendor/preview` | Vendor | Readiness check, registration walkthrough, visit status, "what diners will see". Need a vendor session. |
+| `/login` | Vendor, city | Made-up address, then the on-screen code (prefilled), labelled simulated. `?role=city` for "sign in as the city (demo)". |
+| `/city` | City | Monthly badge report and visit requests, read-only, labelled demo |
 
 The stall component is shared between `/stall/[id]`, `/vendor/stall/[id]` and `/vendor/preview`.
 

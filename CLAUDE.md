@@ -25,7 +25,7 @@ Full reasoning in `docs/PRODUCT.md` → Principles.
 - Strict gate: only stalls on the 113 and 114 lists and 優/良 restaurants (chains and institutional venues removed) appear or receive badges. Lapsed stalls: no mark, no new badges, wording "label ended", never "failed".
 - Show only that a stall or restaurant is certified. Never display, sort, rank or filter by gold/silver (金質/銀質) or 優/良; the data keeps them, the UI ignores them.
 - Voting: up to four badges per award, each badge once per person and stall ever, one award session per person and stall per month. Rules live in one place (`docs/ARCHITECTURE.md` → Domain rules).
-- Diners have no accounts and vendors have no sign-in (a made-up practice venue is tied to the browser, with a resume link). No free text, no real personal data, no email addresses collected. New vendor venues are made up.
+- Three access levels: diners have no accounts (per-browser limits plus Turnstile and a per-IP rate limit); eatery owners and the city use a simulated email-code sign-in (made-up `@example.test` addresses only, no email sent, code shown on screen and prefilled). No free text, no real personal data, no real email addresses collected. Signing in never lets anyone claim or edit a real stall. New vendor venues are made up.
 - Colour is never the only signal: every badge shows shape, icon and text label.
 - Label everything simulated (seed votes, made-up venues, visit routing and status, streaks, seed-based milestones) in the UI and the README.
 - Stall key is `id` (for example `114-士林-012`), never the registration number or name.
@@ -34,7 +34,7 @@ Full reasoning in `docs/PRODUCT.md` → Principles.
 ## Commands
 
 ```sh
-pnpm dev                 # local dev, login codes show as a toast
+pnpm dev                 # local dev
 pnpm db:migrate          # local D1 migrations
 pnpm lint                # antfu eslint
 pnpm nuxi typecheck      # needs `pnpm cf-typegen` once
