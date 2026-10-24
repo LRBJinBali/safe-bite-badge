@@ -1,6 +1,6 @@
 # Architecture
 
-API, codebase structure and development notes. **No app code exists yet**: the stack is decided; the data model, API, pages and layout below are proposals to review before implementation. Update this file in the same change that makes any of it true (or changes it).
+API, codebase structure and development notes. The app is built; where a section below still says "proposed", the list under **Built differently** wins. Update this file in the same change that makes any of it true (or changes it).
 
 ## Stack (decided)
 
@@ -143,6 +143,16 @@ Data/              official lists and parsed data (see Data/index.md)
 scripts/           data parsers and seed scripts
 docs/              PRODUCT.md, ARCHITECTURE.md
 ```
+
+## Built differently (24 Oct)
+
+- `stall_id` holds any venue id (`114-士林-012`, `R-0001`, `DEMO-001`). Extra tables: `rate_limits`, `activity` (admin feed). D1 caps bound parameters at 100: never bind id lists.
+- Diner list API is `/api/stalls?group=&kind=&badge=&q=`; `/api/markets?kind=` returns pins. `/api/auth/me` always returns `{ role, email }` (nulls when signed out).
+- Extra pages: `/demo` (guided demo), `/admin` (owner overview, `x-admin-key` when `NUXT_ADMIN_KEY` is set). Extra API: `/api/demo/seed`, `/api/demo/reset`, `/api/demo-flag`, `/api/admin/overview`.
+- Demo mode is a cookie (`sb_demo`) that reveals made-up venues (`DEMO-*`, see `server/utils/venues.ts`). The only lapsed stall is a made-up one.
+- Seed votes: `server/utils/seed.ts`, deterministic, `simulated = 1`, seating badges only on names that suggest seating (`mayHaveSeating`).
+- The `trustPolicy` in `pnpm-workspace.yaml` is pnpm's default; `pnpm lint`/`nuxi typecheck` may be blocked by it (`semver@6.3.1`), so run `node_modules/.bin/eslint .` and `node_modules/.bin/vue-tsc --noEmit -p .nuxt/tsconfig.app.json` (and `tsconfig.server.json`).
+- Design notes for the owner: `docs/design/` (theme, map, demo, setup).
 
 ## Development notes
 

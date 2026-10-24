@@ -22,15 +22,16 @@ The rules every screen, endpoint and seed script must keep. Each one traces to a
 
 What is missing or unverified today. Remove an item when it is fixed.
 
-- **No app code yet.** `docs/ARCHITECTURE.md` describes the proposed stack and API; nothing is scaffolded.
 - **Certified-year matching not done.** Years must come from `reg_root` plus name across lists, confirmed by hand. Only 好吸 (Nanjichang 112, Jingmei 114) is a candidate; `A-200241365-00000-0` is a false match (two unrelated stalls).
 - **Lapse date is an estimate, so it is not computed.** The lists carry no expiry date, and 113 labels (237 stalls) would end about 28 Oct 2026, during the public vote. For the MVP no stall lapses automatically: show "certified in 113 (2024)". Only a few hand-picked demo stalls show "label ended". Revisit when the department publishes end dates.
-- **Demo stall.** One labelled made-up stall, exempt from the per-person limits and resettable, so the award flow can be shown repeatedly on stage. Not built yet.
-- **Seed votes not generated.** They must look real: no seating badges on stalls without seating, and we have no seated/takeaway data.
 - **Readiness form currency unconfirmed.** The check mirrors the 114 form (`Data/004-assessment-form-114.pdf`); confirm with the department that it is current.
 - **Vote stuffing.** Per-browser limits plus basic spam protection (Turnstile and a per-IP rate limit) stop scripts, not a determined person with several browsers. Say so in the README.
 - **Sign-in protects nothing.** It is simulated, so anyone can sign in as any made-up vendor or as the city. Fine while every venue is made up and real stalls stay read-only; say so in the README.
 - **Restaurants have no certification year**, so no streaks or lapse logic for them.
+
+- **Seating is guessed.** Seed 'sit' badges follow a name-keyword heuristic because no seated/takeaway data exists.
+- **Mapbox path untested without a token**; the SVG fallback is what runs until `NUXT_PUBLIC_MAPBOX_TOKEN` is set. Turnstile is untested with real keys.
+- **Registration links:** the Taipei ingredient platform URL is unconfirmed (the step links to the Health Department site).
 
 ## Roadmap
 
@@ -104,6 +105,8 @@ Team decisions that shape the build. The PRD below already reflects them; this l
 - **Badge fit.** Badges are optional and absence is never marked. Each badge shows a short hint on the award screen. A stall page shows only badges it has received. Seed votes must look like real awards.
 - **News feed.** Generated from data we already hold. A short strip on the diner home above the market list, the full feed one tap away, and a stall's own items in the vendor view. Three kinds: newly certified (real), streaks (mostly simulated, tagged), badge milestones (self-comparison at fixed thresholds: first, 10, 25; seed-based ones tagged). Reactions 恭喜, 我想去, 去過了, one of each per browser per item; 我想去 opens the stall page and its share link.
 - **Restaurants: chains and institutional venues removed** (see `Data/index.md`).
+- **Demo mode and owner admin (24 Oct).** `/demo` runs a scripted two-pane walkthrough (diner left, vendor right, one automated award) on made-up venues that only show with the demo cookie; `/admin` is a private overview for the product owner. The lapsed example is a made-up stall, so no real stall is ever shown as "label ended".
+- **Vendor location.** No exact stall addresses exist, so the location button opens a Google Maps text search from stall name and market; the Mapbox map stays market-level.
 - **Design direction: clean and organic**, replacing "warm, playful" (see "Design direction" below).
 
 ## Vendor readiness check content
