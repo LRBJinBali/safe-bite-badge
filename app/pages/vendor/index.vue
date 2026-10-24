@@ -11,6 +11,7 @@ const toast = useToast()
 const requestFetch = useRequestFetch()
 
 const marketLabel = (m: string) => m.endsWith('夜市') ? m : `${m}夜市`
+const whereLabel = (v: Venue) => v.kind === 'restaurant' ? `餐廳 · ${v.group}` : marketLabel(v.group)
 
 const mode = ref<'find' | 'prepare' | null>(route.query.mode === 'prepare' ? 'prepare' : route.query.mode === 'find' ? 'find' : null)
 
@@ -89,8 +90,8 @@ const nameLeft = computed(() => VENUE_NAME_MAX - name.value.length)
         @click="mode = 'find'"
       >
         <UIcon name="i-lucide-badge-check" class="size-10 text-[var(--sb-moss)]" />
-        <span class="text-2xl font-black leading-snug">我的攤位已通過認證,查看</span>
-        <span class="text-lg text-[var(--sb-ink-soft)]">找到自己的攤位,看朋友送來的徽章。</span>
+        <span class="text-2xl font-black leading-snug">我的攤位或餐廳已通過認證,查看</span>
+        <span class="text-lg text-[var(--sb-ink-soft)]">找到自己的店,看朋友送來的徽章。</span>
       </button>
       <button
         type="button"
@@ -108,9 +109,9 @@ const nameLeft = computed(() => VENUE_NAME_MAX - name.value.length)
     <!-- Find my stall -->
     <section v-if="mode === 'find'" class="sb-card space-y-4 p-6">
       <h2 class="text-2xl font-black">
-        找到我的攤位
+        找到我的店
       </h2>
-      <UInput v-model="q" size="xl" class="w-full" icon="i-lucide-search" placeholder="輸入攤名或夜市名,例如:士林" aria-label="搜尋攤位" autofocus />
+      <UInput v-model="q" size="xl" class="w-full" icon="i-lucide-search" placeholder="輸入店名、夜市或行政區,例如:士林、牛肉麵" aria-label="搜尋攤位" autofocus />
       <ul v-if="results.length" class="space-y-2">
         <li v-for="v in results" :key="v.id">
           <NuxtLink
@@ -119,17 +120,17 @@ const nameLeft = computed(() => VENUE_NAME_MAX - name.value.length)
           >
             <span>
               <span class="block text-xl font-bold">{{ v.name }}</span>
-              <span class="block text-lg text-[var(--sb-ink-soft)]">{{ marketLabel(v.group) }}<SimTag v-if="v.simulated" class="ml-2">虛構</SimTag></span>
+              <span class="block text-lg text-[var(--sb-ink-soft)]">{{ whereLabel(v) }}<SimTag v-if="v.simulated" class="ml-2">虛構</SimTag></span>
             </span>
             <UIcon name="i-lucide-chevron-right" class="size-6 shrink-0" />
           </NuxtLink>
         </li>
       </ul>
       <p v-else-if="searched" class="text-xl">
-        找不到。換個字再試試看,例如夜市名。
+        找不到。換個字再試試看,例如夜市名或行政區。
       </p>
       <p v-else class="text-lg text-[var(--sb-ink-soft)]">
-        輸入幾個字,結果會直接出現。這裡只能查看,不能修改,也不能認領攤位。
+        輸入幾個字,結果會直接出現。這裡只能查看,不能修改,也不能認領店家。
       </p>
     </section>
 
