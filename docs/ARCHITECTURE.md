@@ -19,7 +19,7 @@ The commands in `CLAUDE.md` and `.worktreeinclude` assume this stack. Confirm it
 
 - **Official lists are static.** `Data/006-stalls.json` and `Data/007-restaurants.json` (rows with `is_chain = false` only) are bundled at build time and read on the server. It never goes in D1 and is never edited by the app.
 - **Everything people do goes in D1:** badge awards, reactions, vendor venues, checklists, visit requests. Seed votes go in D1 too, with `simulated = 1`.
-- **Identity is a per-browser anonymous id**, a random UUID in an httpOnly cookie set on first request. No accounts, no personal data. Easy to bypass (clear cookies); the README says so.
+- **Identity is a per-browser anonymous id**, a random UUID in an httpOnly cookie set on first request. Diners have no accounts and no personal data. Vendors sign in with a one-time code (shown as a toast in dev); the delivery channel and what it unlocks are open (see `docs/PRODUCT.md` → Known gaps). The per-browser id is easy to bypass (clear cookies); the README says so.
 
 ## Data model (D1, proposed)
 
@@ -68,8 +68,8 @@ Diner:
 | Method | Path | Purpose |
 | --- | --- | --- |
 | GET | `/api/markets` | Markets with stall counts (map and list) |
-| GET | `/api/stalls?market=&badge=` | Stalls in a market, optionally only those with a badge. Never sorted by tier. |
-| GET | `/api/stalls/:id` | One stall: list data, tier, certified years, lapsed flag, people per badge |
+| GET | `/api/stalls?market=&badge=` | Stalls in a market, optionally only those with a badge. Ordered by list row, never by certification level. |
+| GET | `/api/stalls/:id` | One stall: list data, certified years, lapsed flag, people per badge |
 | GET | `/api/stalls/:id/me` | What this browser has given, and whether it can award this month |
 | POST | `/api/stalls/:id/awards` | Body `{ badges: string[] }`. Enforces `canAward`. Returns new counts. |
 | GET | `/api/counter` | Badges given this month, city-wide |
@@ -123,7 +123,7 @@ docs/              PRODUCT.md, ARCHITECTURE.md
 
 - **UI language:** Traditional Chinese first (zh-TW), mobile first. Test fonts on rare characters and bopomofo in stall names.
 - **Time zone:** compute months and lapse dates in Asia/Taipei.
-- **Never sort, rank or filter by tier.** Order stalls by list row (`seq`) within a market.
+- **Never display, sort, rank or filter by gold/silver or 優/良.** Keep the field in the data but don't send it to the client. Order stalls by list row (`seq`) within a market.
 - **Simulated data** carries a visible tag wherever it shows, and `simulated = 1` in D1.
 - **Design tokens** (background, sage, moss, ink, badge fills) are in `docs/PRODUCT.md` → Design direction. Define them once as theme tokens.
 - **Share links:** Web Share API first, then LINE (`https://social-plugins.line.me/lineit/share?url=`) and copy-link fallbacks. Check the preview with LINE and Messenger before submitting.

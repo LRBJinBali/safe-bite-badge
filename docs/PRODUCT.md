@@ -11,9 +11,9 @@ The rules every screen, endpoint and seed script must keep. Each one traces to a
 1. **Only celebrate.** No negative reviews, star ratings, rankings, "most/top" or comparisons between stalls. Badges are given, never taken away. Absence is never marked: no zero counts, no "not yet".
 2. **Cite, never certify.** The "Officially certified" mark comes only from the Health Department's lists. We never issue, re-create or imply it. The UI says plainly that the product is unofficial and built on public Health Department lists.
 3. **Strict gate.** Only stalls on the 113 and 114 lists and restaurants on the 優/良 list (chains removed) appear and can receive badges. A lapsed stall stays listed with its history, loses the mark, and cannot receive new badges until it renews. Wording is "label ended", never "failed".
-4. **Tier is shown, never sorted.** 金質/銀質 (and 優/良) appear on the stall page and share card as a fact. Never sort, rank or filter by it, and never show it on the map or list.
+4. **Certified or not, nothing finer.** Show only that a stall or restaurant is officially certified. The gold/silver (金質/銀質) and 優/良 levels are never shown, sorted, ranked or filtered by; the data keeps them but the UI ignores them.
 5. **One person, one count per badge.** Up to four badges in one award; each badge once per person and stall, ever; one award session per person and stall per month. Stall counts are people per badge; the city counter counts badges newly given this month.
-6. **No personal data, no free text.** No accounts, no notes, anonymous per-browser limits. New vendor venues are made up.
+6. **No personal data, no free text.** Diners have no accounts: anonymous per-browser limits, no notes. Vendors sign in with a one-time code (decided 24 Oct; shown as a toast in dev). New vendor venues are made up.
 7. **Colour is never the only signal.** Every badge shows shape, icon and text label, including in filters, counts and the share card.
 8. **Label what is simulated.** Seed votes, made-up venues, visit-request routing and status, streaks and seed-vote milestones carry a "simulated" tag in the UI and the README.
 9. **Anything a voter might try must work**, on both the diner and vendor sides. Only steps that need the city itself (issuing the mark, receiving visit requests) are simulated.
@@ -23,7 +23,7 @@ The rules every screen, endpoint and seed script must keep. Each one traces to a
 What is missing or unverified today. Remove an item when it is fixed.
 
 - **No app code yet.** `docs/ARCHITECTURE.md` describes the proposed stack and API; nothing is scaffolded.
-- **Stall parser not in the repo.** `Data/006-stalls.*` was parsed from the three PDFs, but the script that did it is not committed, so the dataset cannot be regenerated. Restaurants have `scripts/parse_restaurants.py`.
+- **Vendor sign-in undefined.** Vendors sign in with a one-time code, but what the code is sent to (email, SMS), what signing in unlocks, and how it fits "no claiming or editing" are not decided.
 - **Certified-year matching not done.** Years must come from `reg_root` plus name across lists, confirmed by hand. Only 好吸 (Nanjichang 112, Jingmei 114) is a candidate; `A-200241365-00000-0` is a false match (two unrelated stalls).
 - **Lapse date is an estimate.** The lists carry no expiry date. 113 labels were announced 28 Oct 2024, so they end about 28 Oct 2026, during the public vote. Decide the rule (announcement + 2 years) in code, in one place.
 - **Seed votes not generated.** They must look real: no seating badges on stalls without seating, and we have no seated/takeaway data.
@@ -78,8 +78,9 @@ Team decisions that shape the build. The PRD below already reflects them; this l
 - **Voting rule** (replaces "one vote per person, stall, badge and month"). A person can give up to four badges to a stall in one award, but each badge only once per stall, so nobody can pile up counts. After a revisit they can come back once a month (one award session per person and stall per month) and add badges they haven't given yet. Badges are never taken away. Counts on the stall page are people per badge; the city counter and the vendor "this month" figures count badges newly given that month.
 - **No free-text notes.**
 - **"Easy to Get In" works like the other badges.** Diners award it, never the vendor, with a short hint like the others. It recognises physical access (for example a cramped market layout that still works for wheelchair users or older people). Community experience, not an inspection.
-- **Tier is shown, never sorted.**
-- **Share card.** Step 1 (build first): a stable link per stall with Open Graph title, description and image, plus a share button (Web Share API, LINE and copy-link fallbacks). Step 2 (if time): a generated card image with stall name, market, the official mark with certification year and tier, and the community badges with shape, icon and label. It carries the "unofficial, built on public Health Department lists" line and no personal data, rankings or ranking-like counts.
+- **Certified or not, nothing finer** (replaces "tier is shown, never sorted"). Gold/silver for stalls and 優/良 for restaurants are consolidated into one "Officially certified" mark; levels are never displayed.
+- **Vendor sign-in.** Vendors sign in with a one-time code (a toast in dev). Diners stay anonymous. Still to define: what the code is sent to, and what signing in unlocks (see Known gaps).
+- **Share card.** Step 1 (build first): a stable link per stall with Open Graph title, description and image, plus a share button (Web Share API, LINE and copy-link fallbacks). Step 2 (if time): a generated card image with stall name, market, the official mark with certification year, and the community badges with shape, icon and label. It carries the "unofficial, built on public Health Department lists" line and no personal data, rankings or ranking-like counts.
 - **Dual entry.** The home screen has two doors: "I'm a diner" and "I run a food stall". Both are working apps on a shared backend; the demo shows them side by side (two panes on desktop, or two phones), for example a badge awarded in the diner pane appearing in that stall's vendor view.
 - **Vendor side is functional, not a mockup.** Five parts:
   1. Readiness check (114 form: 10 inspection and 6 guidance items), progress saved to the backend, ending in a "ready to request a visit" result.
@@ -169,7 +170,7 @@ The diner flow and the eatery owner flow both work live on one shared backend; o
 **Diner**
 
 1. Open the map or list of certified stalls, grouped by night market, and optionally filter by badge.
-2. Open a stall page and see its official mark (with tier and certified years) and counts for the badges it has received (each shown with shape, icon and label; no zero counts).
+2. Open a stall page and see its official mark (with certified years) and counts for the badges it has received (each shown with shape, icon and label; no zero counts).
 3. Award up to four badges in one go, each badge once per stall. There is no free-text note. After a revisit, come back once a month to add badges not yet given.
 4. See the stall's count and the city counter ("Taipei has received X badges this month") update.
 5. Share the stall with friends and family through a link and a card.
@@ -201,7 +202,7 @@ The MVP covers all 516 stalls on the 113 and 114 lists, shown at market level, a
 | Must | Share link for each stall with a link preview for LINE and Messenger, and a share button, so people can recommend places to friends and family | Real list data plus live badge counts |
 | Must | Eatery owner side: find-my-stall vendor view, readiness check, registration walkthrough, visit request with status, all saved to the backend. If short of time, find-my-stall first | Real list data for certified stalls; made-up venues and simulated visit routing for new stalls |
 | Should | Badge filters: show only stalls that have received a chosen badge | Simulated |
-| Should | Generated share card image: stall name, market, official mark with year and tier, and its badges by shape, icon and label | Real list data plus live badge counts |
+| Should | Generated share card image: stall name, market, official mark with year, and its badges by shape, icon and label | Real list data plus live badge counts |
 | Should | News feed: newly certified stalls, certification streaks and per-stall badge milestones, with fixed positive reactions. If trimmed, keep newly certified with reactions | Real list data for newly certified; streaks and seed-vote milestones simulated and tagged |
 
 **Post-MVP ideas (README only):** monthly missions, district passport, monthly district picks, shared city goal, a seated/takeaway tag per stall, a proper chain/franchise filter for restaurants (for example a field the Health Department maintains).
@@ -210,7 +211,7 @@ The MVP covers all 516 stalls on the 113 and 114 lists, shown at market level, a
 
 Two axes: official certification, cited and never re-created, and four experience badges that anyone can award and anyone can earn.
 
-**Official axis (real data).** One shared "Officially certified" mark. Night-market stalls qualify through the Smile Label (gold or silver) and storefront restaurants through the 優/良 grading. Gold/silver and 優/良 appear on the stall page and share card as the official fact, never on the map or list, and are never used to sort, rank or filter. Eateries with neither show nothing, and absence is never labelled. Each stall records the years it was certified (for example 113 and 114) and multi-year streaks are celebrated. When a label ends, the stall is shown as lapsed with its history, the official mark is no longer shown, and it can receive no new badges until it renews. On the 114 list, 275 of 279 stalls are gold, so the tier tells diners little. The official mark is a different shape from all four badges (for example a seal with a check) and uses ink only.
+**Official axis (real data).** One shared "Officially certified" mark. Night-market stalls qualify through the Smile Label and storefront restaurants through the 優/良 grading, but we show only that the venue is certified: the gold/silver and 優/良 levels are consolidated away and never displayed, sorted, ranked or filtered by (decided 24 Oct; the data files keep them). Eateries with neither show nothing, and absence is never labelled. Each stall records the years it was certified (for example 113 and 114) and multi-year streaks are celebrated. When a label ends, the stall is shown as lapsed with its history, the official mark is no longer shown, and it can receive no new badges until it renews. The official mark is a different shape from all four badges (for example a seal with a check) and uses ink only.
 
 **Experience axis (citizens award)**
 
