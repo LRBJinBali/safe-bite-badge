@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { BadgeKey } from '~~/shared/badges'
 import type { FeedItem, MeResponse, VenueDetail } from '~~/shared/types'
+import { markName } from '~~/shared/mark'
 
 const route = useRoute()
 const embed = useEmbed()
@@ -21,8 +22,8 @@ const description = computed(() => {
     return '這家店不在名單上。'
   const where = `${v.group}${v.kind === 'stall' ? '夜市' : ''}`
   return v.lapsed
-    ? `${where}的「${v.name}」食安微笑標章已結束。非官方。`
-    : `${where}的「${v.name}」擁有衛生局食安微笑標章。來送徽章,為好店加油!非官方。`
+    ? `${where}的「${v.name}」${markName(v.kind)}已結束。非官方。`
+    : `${where}的「${v.name}」擁有衛生局${markName(v.kind)}。來送徽章,為好店加油!非官方。`
 })
 useSeoMeta({ title, ogTitle: title, description, ogDescription: description, ogType: 'website', ogLocale: 'zh_TW' })
 
@@ -86,7 +87,7 @@ const blockedNote = computed(() => {
           <UButton v-if="!venue.lapsed && (!me || me.canAward)" size="xl" icon="i-lucide-leaf" class="order-first w-full justify-center sm:w-auto" @click="sheet = true">
             送出徽章
           </UButton>
-          <ShareButton v-if="!sent.length" :title="venue.name" :text="`${venue.group}${venue.kind === 'stall' ? '夜市' : ''}的 ${venue.name},通過食安微笑標章。`" />
+          <ShareButton v-if="!sent.length" :title="venue.name" :text="`${venue.group}${venue.kind === 'stall' ? '夜市' : ''}的 ${venue.name},通過${markName(venue.kind)}。`" />
         </template>
 
         <p v-if="venue.lapsed" class="flex items-center gap-2 text-xl font-bold">

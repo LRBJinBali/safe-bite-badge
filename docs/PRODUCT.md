@@ -27,7 +27,7 @@ What is missing or unverified today. Remove an item when it is fixed.
 - **Readiness form currency unconfirmed.** The check mirrors the 114 form (`Data/004-assessment-form-114.pdf`); confirm with the department that it is current.
 - **Vote stuffing.** Per-browser limits plus basic spam protection (Turnstile and a per-IP rate limit) stop scripts, not a determined person with several browsers. Say so in the README.
 - **Sign-in protects nothing.** It is simulated, so anyone can sign in as any made-up vendor or as the city. Fine while every venue is made up and real stalls stay read-only; say so in the README.
-- **Restaurants have no certification year**, so no streaks or lapse logic for them.
+- **Restaurants are all 114.** The 優/良 list is the 114 round (confirmed by the team, not stated in the file), so each restaurant shows "114年"; no streaks and no lapse logic until a second round exists.
 
 - **Seating is guessed.** Seed 'sit' badges follow a name-keyword heuristic because no seated/takeaway data exists.
 - **Mapbox path untested without a token**; the SVG fallback is what runs until `NUXT_PUBLIC_MAPBOX_TOKEN` is set. Turnstile is untested with real keys.
@@ -49,7 +49,7 @@ What is missing or unverified today. Remove an item when it is fixed.
 
 Must (live, working):
 
-1. List or market-level map of all 516 stalls (113 and 114 lists), grouped by market, plus the 876 independent 優/良 restaurants (chains and institutional venues removed), grouped by district, all with the single "Officially certified" mark. The 112 list is history only: it feeds certified years and lapsed stalls. Restaurants have no certification year, so no streaks or lapse logic for them; a district list needs no geocoding, a map would (run a 20-address test first).
+1. List or market-level map of all 516 stalls (113 and 114 lists), grouped by market, plus the 876 independent 優/良 restaurants (chains and institutional venues removed), grouped by district, all with the single "Officially certified" mark. The 112 list is history only: it feeds certified years and lapsed stalls. Restaurants are all round 114, so no streaks or lapse logic yet; a district list needs no geocoding, a map would (run a 20-address test first).
 2. Award up to four badges to a stall in one go (no note).
 3. Stall page with people-per-badge counts; voting rule as in Principles 5.
 4. City counter: "Taipei has received X badges this month".
@@ -297,7 +297,7 @@ The organiser requires the README and the demo to say which data is real and whi
 | Data | Status | Notes |
 | --- | --- | --- |
 | 112, 113 and 114 Smile Label lists | Real | Parsed from the official PDFs: 759 rows (516 on the 113 and 114 lists). Market, stall name, registration number and gold/silver only; no address or position. |
-| Restaurant grading list (優/良) | Real | Official open dataset: 1,686 venues; 876 kept after removing chains and institutional venues. No certification year. |
+| Restaurant grading list (優/良) | Real | Official open dataset: 1,686 venues; 876 kept after removing chains and institutional venues. No year column; treated as round 114. |
 | Citizen badge votes | Simulated seed plus live votes | Label simulated data in the UI as well as the README |
 | Made-up venues and visit-request status | Simulated | New venues on the eatery owner side only; certified stalls use real list data |
 | Streak items and seed-vote milestones in the news feed | Simulated | Tagged "simulated" in the feed |

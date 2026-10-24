@@ -15,7 +15,7 @@ export const DEMO_MARKET = '示範夜市'
 const DEMO_VENUES: Venue[] = [
   { id: 'DEMO-001', kind: 'stall', name: '示範小吃攤(虛構)', group: DEMO_MARKET, groupEn: 'Demo Market', seq: 1, years: [112, 113, 114], lapsed: false, simulated: true },
   { id: 'DEMO-002', kind: 'stall', name: '示範滷味攤(虛構)', group: DEMO_MARKET, groupEn: 'Demo Market', seq: 2, years: [114], lapsed: false, simulated: true },
-  { id: 'DEMO-R-001', kind: 'restaurant', name: '示範小館(虛構)', group: '大安區', seq: 0, years: [], lapsed: false, simulated: true },
+  { id: 'DEMO-R-001', kind: 'restaurant', name: '示範小館(虛構)', group: '大安區', seq: 0, years: [114], lapsed: false, simulated: true },
   { id: 'DEMO-LAPSED-001', kind: 'stall', name: '示範老攤(虛構・標章已結束)', group: DEMO_MARKET, groupEn: 'Demo Market', seq: 3, years: [112], lapsed: true, simulated: true },
 ]
 export const DEMO_STALL_ID = 'DEMO-001'
@@ -51,7 +51,7 @@ const restaurants: Venue[] = (restaurantsRaw as RawRestaurant[])
     name: r.name,
     group: r.district,
     seq: i + 1,
-    years: [],
+    years: [114], // the 007 list is the 114 round
     lapsed: false,
     simulated: false,
   }))

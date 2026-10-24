@@ -1,5 +1,6 @@
 import type { FeedItem, ReactionKind } from '../../shared/types'
 import { badgeByKey } from '../../shared/badges'
+import { markName } from '../../shared/mark'
 import { MILESTONES } from '../../shared/rules'
 import { getVenue, listVenues } from './venues'
 
@@ -36,22 +37,34 @@ export async function buildFeed(db: D1Database, opts: { demo: boolean, browserId
       venueId: v.id,
       venueName: v.name,
       group: v.group,
-      text: `${v.name} 連續 ${v.years.length} 輪獲得食安微笑標章(${v.years.join('、')} 年)`,
+      text: `${v.name} 連續 ${v.years.length} 輪獲得${markName(v.kind)}(${v.years.join('、')} 年)`,
       simulated: v.simulated,
     })
   }
 
-  const stalls114 = listVenues({ kind: 'stall', demo: false }).filter(s => s.years.includes(114))
-  const markets = [...new Set(stalls114.map(s => s.group))]
-  for (const m of markets) {
-    const list = stalls114.filter(s => s.group === m)
-    items.push({ id: `new:market:${m}`, kind: 'new', group: m, text: `${m}夜市 ${list.length} 攤獲得 114 年食安微笑標章`, simulated: false })
-    for (const s of list.slice(0, PER_MARKET_STALLS)) {
-      items.push({ id: `new:${s.id}`, kind: 'new', venueId: s.id, venueName: s.name, group: m, text: `${s.name} 新獲 114 年食安微笑標章`, simulated: false })
+  // Newly certified (real data): stalls by market and restaurants by district, interleaved so both show.
+  const newItems = (kind: 'stall' | 'restaurant') => {
+    const out: Omit<FeedItem, 'reactions' | 'mine'>[] = []
+    const list114 = listVenues({ kind, demo: false }).filter(s => s.years.includes(114))
+    for (const g of [...new Set(list114.map(s => s.group))]) {
+      const list = list114.filter(s => s.group === g)
+      const unit = kind === 'stall' ? `${g}夜市 ${list.length} 攤` : `${g} ${list.length} 家餐廳`
+      out.push({ id: `new:${kind}:${g}`, kind: 'new', group: g, text: `${unit}獲得 114 年${markName(kind)}`, simulated: false })
+      for (const s of list.slice(0, PER_MARKET_STALLS))
+        out.push({ id: `new:${s.id}`, kind: 'new', venueId: s.id, venueName: s.name, group: g, text: `${s.name} 新獲 114 年${markName(kind)}`, simulated: false })
     }
+    return out
   }
+  const [ns, nr] = [newItems('stall'), newItems('restaurant')]
+  for (let i = 0; i < Math.max(ns.length, nr.length); i++)
+    items.push(...[ns[i], nr[i]].filter((x): x is NonNullable<typeof x> => !!x))
 
-  const filtered = opts.venueId ? items.filter(i => i.venueId === opts.venueId) : items
+  // Interleave the kinds so the first few items are a mix, not all milestones.
+  const byKind = (['new', 'milestone', 'streak'] as const).map(k => items.filter(i => i.kind === k))
+  const mixed: typeof items = []
+  for (let i = 0; i < Math.max(...byKind.map(l => l.length)); i++)
+    mixed.push(...byKind.flatMap(l => (l[i] ? [l[i]!] : [])))
+  const filtered = opts.venueId ? mixed.filter(i => i.venueId === opts.venueId) : mixed
   const sliced = filtered.slice(0, opts.limit ?? 40)
   if (!sliced.length)
     return []

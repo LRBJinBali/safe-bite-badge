@@ -24,7 +24,7 @@ watch(() => props.item, (i) => {
 
 const destination = computed(() => props.item.venueId
   ? to(`/stall/${props.item.venueId}`)
-  : to('/diner', { group: props.item.group ?? '', kind: 'stall' }))
+  : to('/diner', { group: props.item.group ?? '', kind: props.item.id.startsWith('new:restaurant:') ? 'restaurant' : 'stall' }))
 
 // A fresh invisible spam check per click (renders nothing when no site key is set).
 const pending = ref<ReactionKind | null>(null)
@@ -66,7 +66,7 @@ async function send(token: string) {
     <div class="flex flex-wrap items-center gap-2 text-base font-bold text-[var(--sb-moss)]">
       <UIcon :name="KINDS[item.kind].icon" class="size-6" />
       <span>{{ KINDS[item.kind].label }}</span>
-      <span v-if="item.group" class="font-normal text-[var(--sb-ink-soft)]">· {{ item.group }}{{ item.venueId ? '' : '夜市' }}</span>
+      <span v-if="item.group" class="font-normal text-[var(--sb-ink-soft)]">· {{ item.group }}{{ item.venueId || item.group.endsWith('區') || item.group.endsWith('夜市') ? '' : '夜市' }}</span>
       <SimTag v-if="item.simulated" />
     </div>
     <p class="text-xl font-bold leading-snug">
