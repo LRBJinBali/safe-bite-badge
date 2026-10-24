@@ -25,7 +25,8 @@ const currentRows = stallRows.filter(s => s.list_year >= 113)
 
 function yearsFor(s: RawStall) {
   const roots = CONFIRMED_SAME_BUSINESS[s.reg_root]
-  if (!roots || !roots.includes(s.name)) return [s.list_year]
+  if (!roots || !roots.includes(s.name))
+    return [s.list_year]
   return [...new Set(stallRows.filter(o => o.reg_root === s.reg_root && roots.includes(o.name)).map(o => o.list_year))].sort()
 }
 
@@ -58,14 +59,17 @@ const byId = new Map<string, Venue>([...stalls, ...restaurants, ...DEMO_VENUES].
 
 export function getVenue(id: string, demo: boolean): Venue | undefined {
   const v = byId.get(id)
-  if (v && v.simulated && !demo) return undefined
+  if (v && v.simulated && !demo)
+    return undefined
   return v
 }
 
 export function listVenues(opts: { kind?: VenueKind, group?: string, demo: boolean }): Venue[] {
   const base: Venue[] = []
-  if (!opts.kind || opts.kind === 'stall') base.push(...stalls, ...(opts.demo ? DEMO_VENUES : []))
-  if (!opts.kind || opts.kind === 'restaurant') base.push(...restaurants)
+  if (!opts.kind || opts.kind === 'stall')
+    base.push(...stalls, ...(opts.demo ? DEMO_VENUES : []))
+  if (!opts.kind || opts.kind === 'restaurant')
+    base.push(...restaurants)
   return opts.group ? base.filter(v => v.group === opts.group) : base
 }
 

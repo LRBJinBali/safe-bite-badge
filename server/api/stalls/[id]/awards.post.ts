@@ -8,7 +8,8 @@ import { getVenue, isDemoId } from '../../../utils/venues'
 /** Award 1 to 4 badges. The rules live in shared/rules.ts; this only does the I/O. */
 export default defineEventHandler(async (event) => {
   const v = getVenue(getRouterParam(event, 'id')!, event.context.demo)
-  if (!v) throw createError({ statusCode: 404, statusMessage: 'Not on the list' })
+  if (!v)
+    throw createError({ statusCode: 404, statusMessage: 'Not on the list' })
   const body = await readBody<{ badges?: string[], turnstile?: string }>(event)
   const requested = Array.isArray(body?.badges) ? body.badges : []
   const db = useDB(event)
@@ -16,16 +17,19 @@ export default defineEventHandler(async (event) => {
   const exempt = isDemoId(v.id) && !v.lapsed
 
   if (!exempt) {
-    if (!(await verifyTurnstile(event, body?.turnstile))) throw createError({ statusCode: 403, statusMessage: 'Spam check failed' })
+    if (!(await verifyTurnstile(event, body?.turnstile)))
+      throw createError({ statusCode: 403, statusMessage: 'Spam check failed' })
     const ip = getRequestIP(event, { xForwardedFor: true }) ?? 'unknown'
-    if (!(await rateLimit(db, `award:${ip}`, 20))) throw createError({ statusCode: 429, statusMessage: 'Slow down' })
+    if (!(await rateLimit(db, `award:${ip}`, 20)))
+      throw createError({ statusCode: 429, statusMessage: 'Slow down' })
   }
 
   const month = monthOf()
   const { results } = await db.prepare('SELECT badge FROM awards WHERE stall_id = ? AND browser_id = ?').bind(v.id, bid).all<{ badge: BadgeKey }>()
   const session = await db.prepare('SELECT 1 AS x FROM award_sessions WHERE stall_id = ? AND browser_id = ? AND month = ?').bind(v.id, bid, month).first()
   const block = awardBlock({ lapsed: v.lapsed, exempt, requested, alreadyGiven: results.map(r => r.badge), sessionThisMonth: !!session })
-  if (block) throw createError({ statusCode: 409, statusMessage: block, data: { reason: block } })
+  if (block)
+    throw createError({ statusCode: 409, statusMessage: block, data: { reason: block } })
 
   // The demo stall can be awarded again and again: each award counts as a new person.
   const who = exempt ? `${bid}:${Date.now()}` : bid

@@ -15,10 +15,14 @@ const px = computed(() => ({ sm: 40, md: 56, lg: 80 })[props.size])
 const shapeStyle = computed(() => {
   const shape = def.value.shape
   const base: Record<string, string> = { background: `var(${def.value.cssVar})`, width: `${px.value}px`, height: `${px.value}px` }
-  if (shape === 'diamond') base.clipPath = 'polygon(50% 0, 100% 50%, 50% 100%, 0 50%)'
-  if (shape === 'squircle') base.borderRadius = '32%'
-  if (shape === 'circle') base.borderRadius = '50%'
-  if (shape === 'arch') base.borderRadius = '50% 50% 14% 14% / 62% 62% 14% 14%'
+  if (shape === 'diamond')
+    base.clipPath = 'polygon(50% 0, 100% 50%, 50% 100%, 0 50%)'
+  if (shape === 'squircle')
+    base.borderRadius = '32%'
+  if (shape === 'circle')
+    base.borderRadius = '50%'
+  if (shape === 'arch')
+    base.borderRadius = '50% 50% 14% 14% / 62% 62% 14% 14%'
   return base
 })
 </script>

@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { googleMapsQueryUrl } from '~~/shared/markets'
 import type { Venue } from '~~/shared/types'
+import { googleMapsQueryUrl } from '~~/shared/markets'
 
 const props = defineProps<{ venue: Pick<Venue, 'name' | 'group' | 'kind'> }>()
 const url = computed(() => googleMapsQueryUrl(props.venue.name, props.venue.group, props.venue.kind))

@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { BADGES } from '~~/shared/badges'
 import type { VenueDetail } from '~~/shared/types'
+import { BADGES } from '~~/shared/badges'
 
 /** The one stall component: diner page, vendor view and vendor preview all render this. */
-const props = defineProps<{ venue: VenueDetail }>()
+const props = defineProps<{ venue: VenueDetail, /** Vendor preview: no official mark, it is not issued here */ preview?: boolean }>()
 const received = computed(() => BADGES.filter(b => props.venue.counts[b.key]))
 </script>
 
@@ -12,19 +12,26 @@ const received = computed(() => BADGES.filter(b => props.venue.counts[b.key]))
     <header class="space-y-2">
       <p class="flex items-center gap-2 text-lg text-[var(--sb-ink-soft)]">
         <UIcon :name="venue.kind === 'stall' ? 'i-lucide-store' : 'i-lucide-utensils'" class="size-5" />
-        {{ venue.group }}{{ venue.kind === 'stall' ? '夜市' : '' }}
-        <SimTag v-if="venue.simulated">虛構店家 made-up</SimTag>
+        {{ venue.group }}{{ venue.kind === 'stall' && !venue.group.endsWith('夜市') ? '夜市' : '' }}
+        <SimTag v-if="venue.simulated">
+          虛構店家 made-up
+        </SimTag>
       </p>
       <h1 class="text-3xl font-black leading-tight">
         {{ venue.name }}
       </h1>
-      <OfficialMark :years="venue.years" :lapsed="venue.lapsed" :simulated="venue.simulated" />
+      <p v-if="preview" class="inline-flex items-center gap-2 rounded-full border-2 border-dashed border-[var(--sb-ink-soft)] px-3 py-1 font-semibold text-[var(--sb-ink-soft)]">
+        <UIcon name="i-lucide-hourglass" class="size-5" /> 通過認證後,這裡會出現官方認證標章
+      </p>
+      <OfficialMark v-else :years="venue.years" :lapsed="venue.lapsed" :simulated="venue.simulated" />
     </header>
 
     <section v-if="received.length" class="space-y-3">
       <h2 class="flex items-center gap-2 text-lg font-bold">
         朋友送出的徽章
-        <SimTag v-if="venue.simulatedVotes">含模擬票</SimTag>
+        <SimTag v-if="venue.simulatedVotes">
+          含模擬票
+        </SimTag>
       </h2>
       <div class="grid gap-4 sm:grid-cols-2">
         <BadgeMark v-for="b in received" :key="b.key" :badge="b.key" :count="venue.counts[b.key]" />

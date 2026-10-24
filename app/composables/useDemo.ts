@@ -1,6 +1,7 @@
 /** Demo mode shows made-up venues and the demo controls. It is a per-browser cookie. */
 export function useDemo() {
-  const demo = useCookie<string | null>('sb_demo', { maxAge: 60 * 60 * 24 * 14, sameSite: 'lax', path: '/' })
+  // Plain string cookie (the server compares with '1'): no JSON quoting.
+  const demo = useCookie<string | null>('sb_demo', { maxAge: 60 * 60 * 24 * 14, sameSite: 'lax', path: '/', encode: v => String(v ?? ''), decode: v => v ?? null })
   return {
     isDemo: computed(() => demo.value === '1'),
     async setDemo(on: boolean) {

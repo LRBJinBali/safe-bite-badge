@@ -1,6 +1,6 @@
+import type { FeedItem, ReactionKind } from '../../shared/types'
 import { badgeByKey } from '../../shared/badges'
 import { MILESTONES } from '../../shared/rules'
-import type { FeedItem, ReactionKind } from '../../shared/types'
 import { getVenue, listVenues } from './venues'
 
 const PER_MARKET_STALLS = 2
@@ -16,7 +16,8 @@ export async function buildFeed(db: D1Database, opts: { demo: boolean, browserId
     const v = getVenue(r.stall_id, opts.demo)
     const def = badgeByKey(r.badge)
     const reached = [...MILESTONES].reverse().find(t => r.n >= t)
-    if (!v || !def || !reached) continue
+    if (!v || !def || !reached)
+      continue
     items.push({
       id: `milestone:${v.id}:${r.badge}:${reached}`,
       kind: 'milestone',
@@ -52,7 +53,8 @@ export async function buildFeed(db: D1Database, opts: { demo: boolean, browserId
 
   const filtered = opts.venueId ? items.filter(i => i.venueId === opts.venueId) : items
   const sliced = filtered.slice(0, opts.limit ?? 40)
-  if (!sliced.length) return []
+  if (!sliced.length)
+    return []
 
   // D1 caps bound parameters, so read all reactions and keep the ones we show.
   const { results: rs } = await db.prepare('SELECT item_id, kind, COUNT(*) AS n, SUM(CASE WHEN browser_id = ? THEN 1 ELSE 0 END) AS mine FROM reactions GROUP BY item_id, kind').bind(opts.browserId).all<{ item_id: string, kind: ReactionKind, n: number, mine: number }>()

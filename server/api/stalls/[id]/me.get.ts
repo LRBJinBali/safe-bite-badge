@@ -1,12 +1,13 @@
 import type { BadgeKey } from '../../../../shared/badges'
-import { canStartAward, monthOf } from '../../../../shared/rules'
 import type { MeResponse } from '../../../../shared/types'
+import { canStartAward, monthOf } from '../../../../shared/rules'
 import { useDB } from '../../../utils/db'
 import { getVenue, isDemoId } from '../../../utils/venues'
 
 export default defineEventHandler(async (event): Promise<MeResponse> => {
   const v = getVenue(getRouterParam(event, 'id')!, event.context.demo)
-  if (!v) throw createError({ statusCode: 404, statusMessage: 'Not on the list' })
+  if (!v)
+    throw createError({ statusCode: 404, statusMessage: 'Not on the list' })
   const db = useDB(event)
   const bid = event.context.browserId
   const exempt = isDemoId(v.id) && !v.lapsed

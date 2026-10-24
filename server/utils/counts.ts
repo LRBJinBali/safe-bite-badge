@@ -9,7 +9,8 @@ export async function countsFor(db: D1Database, stallId: string) {
   let simulatedVotes = false
   for (const r of results) {
     counts[r.badge] = r.n
-    if (r.sim > 0) simulatedVotes = true
+    if (r.sim > 0)
+      simulatedVotes = true
   }
   return { counts, simulatedVotes }
 }
