@@ -10,6 +10,7 @@
     "cf-typegen": "wrangler types",
     "db:migrate": "wrangler d1 migrations apply safe-bite --local",
     "db:migrate:remote": "wrangler d1 migrations apply safe-bite --remote",
+    "seed": "curl -s -X POST 'http://localhost:3000/api/demo/seed?force=1'",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "postinstall": "nuxt prepare"
