@@ -1,0 +1,14 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "safe-bite-badge",
+  "main": ".output/server/index.mjs",
+  "compatibility_date": "2025-04-01",
+  "compatibility_flags": ["nodejs_compat"],
+  "assets": { "directory": ".output/public" },
+  "d1_databases": [
+    { "binding": "DB", "database_name": "safe-bite", "database_id": "local-placeholder", "migrations_dir": "server/database/migrations" }
+  ],
+  "r2_buckets": [
+    { "binding": "CARDS", "bucket_name": "safe-bite-cards" }
+  ]
+}
