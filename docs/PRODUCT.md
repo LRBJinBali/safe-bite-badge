@@ -107,6 +107,7 @@ Team decisions that shape the build. The PRD below already reflects them; this l
 - **Restaurants: chains and institutional venues removed** (see `Data/index.md`).
 - **Not only night markets (24 Oct).** Copy, home, demo and seed treat night-market stalls and restaurants equally: about 40% of the 876 restaurants get simulated votes (a few reach milestones), a made-up demo restaurant (`DEMO-R-001`, 大安區) is listed first in demo mode, and the demo script has a restaurant step.
 - **Demo mode and owner admin (24 Oct).** `/demo` runs a scripted two-pane walkthrough (diner left, vendor right, one automated award) on made-up venues that only show with the demo cookie; `/admin` is a private overview for the product owner. The lapsed example is a made-up stall, so no real stall is ever shown as "label ended".
+- **Demo fits one screen (24 Oct).** On a wide window `/demo` lays out as phone, caption and controls, phone, at a fixed design size scaled to fit the window, so nothing needs scrolling on a laptop or projector. Browser zoom does not work in every viewer, so the page has its own zoom (buttons, or `+` `-` `0`, also Cmd or Ctrl with those keys, remembered per browser) and a full-screen button. Narrow windows keep the single-phone tabs.
 - **Vendor location.** No exact stall addresses exist, so the location button opens a Google Maps text search from stall name and market; the Mapbox map stays market-level.
 - **Design direction: clean and organic**, replacing "warm, playful" (see "Design direction" below).
 
