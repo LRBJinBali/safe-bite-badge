@@ -79,7 +79,7 @@ async function choose(key: string) {
         找一家安心的好店
       </h1>
       <p class="text-xl text-[var(--sb-ink-soft)]">
-        只收錄通過衛生局食安微笑標章的店。
+        只收錄通過衛生局衛生管理分級標章的店。
       </p>
     </div>
 
