@@ -1,0 +1,14 @@
+# Gitignored files Claude Code copies into each new worktree (.gitignore syntax).
+# Then run `pnpm install` and `pnpm db:migrate` in the worktree.
+
+# Local secrets: nitro-cloudflare-dev loads .env for `pnpm dev`
+.env
+.env.*
+.dev.vars
+.dev.vars.*
+
+# Workers types for `pnpm nuxi typecheck` (from `pnpm cf-typegen`)
+worker-configuration.d.ts
+
+# Local D1 and R2 data, so a worktree starts with your test hosts and events
+.wrangler/state/

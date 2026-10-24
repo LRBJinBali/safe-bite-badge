@@ -31,18 +31,6 @@ Give Taipei food vendors who keep high hygiene standards visibility, and give th
 
 Visibility is earned by being clean, so it is gated on official certification: only certified eateries appear on the map and can receive badges.
 
-**Hackathon success**
-
-- A working live demo, operated on the day.
-- Votes in the public vote (24 Oct 16:30 to 31 Oct 18:00; top three win; 3 votes per account).
-- Badges awarded during and after the demo, shown on the city counter.
-
-**Post-hackathon metrics to validate**
-
-- Share of listed eateries with at least one badge.
-- Repeat badge givers per month.
-- Certified stalls reached per market.
-
 ## Users
 
 Three groups use the product. Diners and eatery owners are both first-class: the home screen has two doors and the demo shows both sides together.
@@ -90,24 +78,24 @@ The diner flow must work live and the eatery owner flow is a labelled mockup. Th
 
 ## MVP scope
 
-The MVP covers all 516 stalls on the 113 and 114 lists, shown at market level, and runs one full flow end to end. Anything a voter might try must work; anything needing real vendors or the city can be a labelled mockup.
+The MVP covers all food venues on the two official lists: 516 night-market stalls (113 and 114 Smile Label lists) and 1,686 restaurants (114 hygiene grading list). Night-market stalls are grouped by market and restaurants by district, and the MVP runs one full flow end to end. Anything a voter might try must work; anything needing real vendors or the city can be a labelled mockup.
 
 | Priority | Feature | Data |
 | --- | --- | --- |
-| Must | List or market-level map of all 516 stalls from both lists, grouped by market, with the single "Officially certified" mark | Real: 113 and 114 list CSV |
+| Must | List of all 2,202 venues, grouped by market (stalls) or district (restaurants), with the single "Officially certified" mark | Real: 113 and 114 Smile Label lists, 114 restaurant grading list |
 | Must | Award up to four coloured badges (no free-text note) | Simulated seed data plus live votes |
-| Must | Stall page with badge counts per colour; one vote per person, stall and month | Simulated |
+| Must | Venue page with badge counts per colour; one vote per person, venue and month | Simulated |
 | Must | City counter: "Taipei has received X badges this month" | Simulated |
-| Must | Share link for each stall with a link preview for LINE and Messenger, and a share button, so people can recommend places to friends and family | Real list data plus live badge counts |
+| Must | Share link for each venue with a link preview for LINE and Messenger, and a share button, so people can recommend places to friends and family | Real list data plus live badge counts |
 | Must | Venue onboarding mockup (readiness check, registration steps, request a visit) | Fake venue |
-| Should | Colour filters: show only stalls that have received a chosen badge colour | Simulated |
-| Should | Generated share card image: stall name, market, official mark with year and tier, and its badges by shape, icon and label | Real list data plus live badge counts |
+| Should | Colour filters: show only venues that have received a chosen badge colour | Simulated |
+| Should | Generated share card image: venue name, market or district, official mark with year and tier, and its badges by shape, icon and label | Real list data plus live badge counts |
 | Should | "Easy to Get In" 3-item prompt shown when awarding (step-free entry or ramp, aisle width, accessible toilet); community experience, not an inspection | Citizen award with a 3-item prompt |
-| If time | Restaurants with the 優/良 mark (needs address geocoding) | Real: 114 list |
+| If time | Map pins for individual venues (the lists have no coordinates, so addresses need geocoding) | Real: list addresses |
 
 **Proposed technical notes**
 
-- A public, mobile-first, Chinese-first page that stays online until the vote closes on 31 Oct.
+- A public, mobile-first, Traditional Chinese-first page for a Taiwanese audience that stays online until the vote closes on 31 Oct.
 - A minimal shared backend so counts are the same for every viewer.
 - Anonymous, per-browser vote limits; no accounts and no real personal data.
 - A list plus a market-level map. The lists have no coordinates, so do not geocode each stall.
@@ -118,7 +106,7 @@ The MVP covers all 516 stalls on the 113 and 114 lists, shown at market level, a
 
 Two axes: official certification, cited and never re-created, and four experience badges that anyone can award and anyone can earn.
 
-**Official axis (real data).** One shared "Officially certified" mark. Night-market stalls qualify through the Smile Label (gold or silver) and storefront restaurants through the 優/良 grading. Gold/silver and 優/良 appear on the stall page and share card as the official fact, never on the map or list, and are never used to sort, rank or filter. Eateries with neither show nothing, and absence is never labelled. Each stall records the years it was certified (for example 113 and 114) and multi-year streaks are celebrated. When a label ends, the stall is shown as lapsed with its history, the official mark is no longer shown, and it can receive no new badges until it renews. On the 114 list, 275 of 279 stalls are gold, so the tier tells diners little.
+**Official axis (real data).** One shared "Officially certified" mark, with no tiers. Night-market stalls qualify through the Smile Label and storefront restaurants through the 優/良 grading; we show only that the venue is certified, never the gold/silver or 優/良 level, and the tier is never used to sort, rank or filter. Venues without an official mark simply show none, and absence is never labelled. Each venue records the years it was certified (for example 113 and 114), and multi-year streaks are celebrated. When a certification ends, the venue is shown as lapsed with its history and the official mark is no longer shown.
 
 **Experience axis (citizens award)**
 
@@ -144,12 +132,8 @@ Not every badge fits every stall, and that is fine: badges are optional and abse
 
 The organiser requires the README and the demo to say which data is real and which is simulated, and no real personal data may be used.
 
-| Data | Status | Notes |
-| --- | --- | --- |
-| 113 and 114 Smile Label lists | Real | Team-compiled CSV, 516 rows including registration numbers; keep the list year (labels last 2 years). The official 114 list has market, stall name, registration number and gold/silver only, with no address. The 114 list has 279 stalls (275 gold, 4 silver) across six markets, counted from the official PDF. Neither stall names nor registration numbers are unique (a number repeats within a list, for example 112 has 243 rows but 238 distinct numbers), so key each stall by list year, market and row number and keep the registration number as a field |
-| 114 restaurant grading list (優/良) | Real | 1,686 venues; addresses need geocoding before mapping |
-| Citizen badge votes | Simulated seed plus live votes | Label simulated data in the UI as well as the README |
-| Venue profiles and space checks | Simulated | Fake venues only |
+| 113 and 114 Smile Label lists (night-market stalls) | Real | Team-compiled CSV, 516 rows including registration numbers; keep the list year (labels last 2 years). The official lists give market, stall name, registration number and gold/silver only, with no address; the gold/silver value is stored but never shown (see Official axis). The 113 list has 237 stalls and the 114 list has 279 stalls across six markets, counted from the official PDFs. Stall names repeat within a list, and on the 113 list two registration numbers repeat (237 rows, 235 distinct numbers), so key each stall by list year, market and list row number and keep the registration number as a field |
+| 114 restaurant grading list (storefront restaurants) | Real | 1,686 venues. Fields: district, venue name, address, result (優/良) and registration number; the 優/良 value is stored but never shown, same as gold/silver. Grouped by district; addresses need geocoding before mapping. Names and registration numbers have not been checked for duplicates, so key each venue by list year and list row number and keep the registration number as a field. Restaurants and stalls share one venue model, with type (stall or restaurant) as a field |
 
 The CSVs have no coordinates, so the map works at market level. The 114 list figures below were counted from the official PDF. The 113 list was also counted from its PDF: 237 stalls (187 gold, 50 silver) in Bangka 73, Linjiang 59, Gongguan 53, Wuzhou 26, Guangzhou 19 and Xichang 7. The 112 list (243 stalls: 238 gold, 5 silver; Ningxia 97, Nanjichang 70, Huaxi St 45, Liaoning 31) is also in hand, and all three lists are parsed into one dataset of 759 rows. The rounds covered different markets, so no stall is on all three lists and only one business (好吸, at Nanjichang in 112 and Jingmei in 114) appears in two rounds. Certified-year streaks are therefore mostly empty for now. The README also lists the open-source packages and AI tools used.
 

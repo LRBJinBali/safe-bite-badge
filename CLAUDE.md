@@ -20,7 +20,7 @@ Strict gate for the MVP: only officially certified eateries appear and can recei
 
 - **Certification history.** Record each stall's certified years in its profile (for example 112, 113, 114) and celebrate multi-year streaks. A recently lapsed stall loses its badge display, stays listed as "lapsed" with its history, and cannot receive new badges until it renews. Wording is "label ended", never "failed".
 - **No free-text notes.** Badges are awarded without a note field (no personal data, no negative text).
-- **"Easy to Get In" is an accessibility badge.** It can be awarded on real stalls by citizens, for example when a cramped market layout is hard for wheelchair users or older people. The award flow shows the 3-item prompt (step-free entry or ramp, aisle width, accessible toilet) as a guide. It is a community experience, not an inspection.
+- **"Easy to Get In" works like the other badges.** Diners award it, never the vendor, and it has a short hint like the others. It recognises physical access, such as a cramped market layout that still works for wheelchair users or older people. It is community experience, not an inspection.
 - **Tier is shown, never sorted.** Show 金質/銀質 as the official fact on each stall. Never sort, rank or filter by it.
 
 - **Share card.** Every stall page has a "recommend to friends and family" share. Step 1 (build first): a stable link per stall with Open Graph title, description and image so it previews well in LINE and Messenger, plus a share button (Web Share API, LINE and copy-link fallbacks). Step 2 (if time): a generated card image. The card shows stall name, market, the official mark with certification year and tier, and the community badges with shape, icon and text label (never colour alone). It carries the "unofficial, built on public Health Department lists" line and no personal data, rankings or counts that imply a ranking.
@@ -35,7 +35,7 @@ Strict gate for the MVP: only officially certified eateries appear and can recei
 - **Hard limits on the vendor side.** It cannot issue the mark; a stall in coaching never appears in the diner list and cannot receive badges (strict gate). New venues are made up (no real personal data or registration numbers). Visit requests do not reach the Health Department or any association; the UI labels that routing as simulated.
 - **Build order.** Vendor side runs alongside Must 1 to 4, not after. If short of time, build part 4 first (it reuses diner data and components), then 1 to 3.
 
-- **Badge fit.** Not every badge fits every stall, and that is fine: badges are optional and absence is never marked. Each badge shows a short hint on the award screen (for example "if there's somewhere to sit" under Sit Down Easy, "a relaxed pace, not a rush" under Take Your Time). A stall page shows only badges it has received, never zero counts. Seed votes must look like real awards (no seating badges on stalls without seating). A seated/takeaway tag per stall is a post-MVP idea for the README.
+- **Badge fit.** Not every badge fits every stall, and that is fine: badges are optional and absence is never marked. Each badge shows a short hint on the award screen (for example "if there's somewhere to sit" under Sit Down Easy, "a relaxed pace, not a rush" under Take Your Time, "step-free way in, room to move, a toilet you can use" under Easy to Get In). A stall page shows only badges it has received, never zero counts. Seed votes must look like real awards (no seating badges on stalls without seating). A seated/takeaway tag per stall is a post-MVP idea for the README.
 
 - **News feed (announcements).** A celebration feed, generated automatically from data we already hold (lists, certified years, badge counts). A short strip sits on the diner home above the market list, with the full feed one tap away; a stall's own items also show in the vendor "find my stall" view (for example "your stall was announced, 37 people said 我想去"). Three kinds:
   1. Newly certified: the 114 round stalls (newest list; real data), per stall or per market. Renewals of lapsed stalls count too. A label ending is never announced.
@@ -65,8 +65,7 @@ Must (live, working):
 Should:
 7. Colour filters (show only stalls with a chosen badge).
 8. Generated share card image (share card step 2).
-9. "Easy to Get In" 3-item prompt shown when awarding (step-free entry or ramp, aisle width, accessible toilet); community experience, not an inspection.
-10. News feed: newly certified, streaks and badge milestones, with fixed positive reactions (see Decisions). If trimmed, keep newly certified.
+9. News feed: newly certified, streaks and badge milestones, with fixed positive reactions (see Decisions). If trimmed, keep newly certified.
 
 If time: restaurants with the 優/良 mark (needs address geocoding; run a 20-address test first).
 
@@ -74,7 +73,7 @@ Anything a voter might try must work, on both the diner and vendor sides. Only s
 
 ## Technical notes (proposed, not yet decided)
 
-- Public URL, mobile-first, Chinese-first UI. Get a working link up by noon; freeze features about 15:00; test on a phone before submitting.
+- Public URL, mobile-first, Traditional Chinese-first UI for a Taiwanese audience. Get a working link up by noon; freeze features about 15:00; test on a phone before submitting.
 - Minimal shared backend so counts are the same for every viewer.
 - Anonymous per-browser vote limits; no accounts; **no real personal data** (organiser rule).
 - Market-level map only. The lists have no coordinates.
@@ -111,7 +110,6 @@ Clean and organic: natural tones led by green, curves that recall plants and lea
 - Colour is never the only signal: always show shape, icon and text label, including in filters and counts.
 - Simulation showed close pairs: terracotta/yellow (deuteranopia), terracotta/celadon (protanopia), celadon/sky blue (tritanopia, the closest pair).
 - Put each badge's text label beside the shape, on the background, not inside the fill. Inside the fill keep only the ink icon: icons need 3:1, and ink on every fill passes (terracotta 4.4, sky blue 3.9, celadon 5.3, yellow 7.9). Lightening terracotta or sky blue to fit small text inside would push celadon and sky blue closer for tritanopia, so don't.
-- "Easy to Get In" is awarded by citizens; the award flow shows the 3-item prompt as a guide. It is community experience, not an inspection.
 - Do not use the organiser's logo or characters. #DB6A41 is the organiser site's theme colour; the others are our proposals.
 
 ## Data
@@ -164,3 +162,27 @@ Mirror the 114 assessment form (stalls are coached, assessed, then re-assessed o
 - Open data (Government Open Data Licence): https://data.gov.tw/dataset/133354 and https://data.gov.tw/dataset/147004
 
 
+## Read first:
+- `docs/PRODUCT.md`: principles, known gaps, roadmap
+- `docs/ARCHITECTURE.md`: API, codebase structure, development notes.
+- `Data/index.md`: data's index and rules.
+
+## References:
+- `Data/00n-xx-xx.*`: data resources - pdf, md, csv, json files.
+
+
+## Commands
+
+```sh
+pnpm dev                 # local dev, login codes show as a toast
+pnpm db:migrate          # local D1 migrations
+pnpm lint                # antfu eslint
+pnpm nuxi typecheck      # needs `pnpm cf-typegen` once
+pnpm run deploy          # build + wrangler deploy to production
+pnpm db:migrate:remote   # production D1 migrations
+# Both need CLOUDFLARE_ACCOUNT_ID when wrangler sees several accounts (Architecture → Deployment)
+```
+
+## Conventions
+- Commits are atomic, and the prefix must be `feat:`, `docs:` or `build:`.
+- Prefer keeping context in the codebase but not memory.
