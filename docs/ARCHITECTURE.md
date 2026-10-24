@@ -11,7 +11,6 @@ The commands in `CLAUDE.md` and `.worktreeinclude` assume this stack.
 | App | Nuxt 4 + Nuxt UI v4, VueUse, TypeScript | One codebase for pages, API routes and OG meta (SSR, so LINE and Messenger previews work) |
 | Hosting | Cloudflare Workers | Public URL, stays up through the vote (31 Oct 18:00) |
 | Database | Cloudflare D1 | Minimal shared backend: counts are the same for every viewer |
-| Email | Cloudflare Email Service (Email Sending) | One-time vendor sign-in codes. Prototype only: no production-grade deliverability, rate limiting or abuse handling yet |
 | Files | Cloudflare R2 (only if the share card image is cached) | Generated card images |
 | Package manager | pnpm | |
 | Lint | antfu eslint | |
@@ -20,7 +19,7 @@ The commands in `CLAUDE.md` and `.worktreeinclude` assume this stack.
 
 - **Official lists are static.** `Data/006-stalls.json` and `Data/007-restaurants.json` (rows with `is_chain = false` only) are bundled at build time and read on the server. It never goes in D1 and is never edited by the app.
 - **Everything people do goes in D1:** badge awards, reactions, vendor venues, checklists, visit requests. Seed votes go in D1 too, with `simulated = 1`.
-- **Identity is a per-browser anonymous id**, a random UUID in an httpOnly cookie set on first request. Diners have no accounts and no personal data. Vendors sign in with a one-time code sent by email through Cloudflare Email Service (shown as a toast in dev instead of sending) to save progress on a made-up venue; real stalls stay read-only with no sign-in. Store at most a hash of the address (see `docs/PRODUCT.md` → Known gaps). The per-browser id is easy to bypass (clear cookies); the README says so.
+- **Identity is a per-browser anonymous id**, a random UUID in an httpOnly cookie set on first request. Diners have no accounts and no personal data. Vendors have no sign-in: a made-up practice venue is tied to the same browser id, and its unguessable id in a resume link opens it elsewhere. No email address is collected. Real stalls stay read-only. The per-browser id is easy to bypass (clear cookies); the README says so.
 
 ## Data model (D1, proposed)
 
@@ -55,8 +54,8 @@ visit_requests (ref, venue_id, created_at)                              -- statu
 
 Put these in `server/utils/rules.ts` (or `shared/`), with unit tests. Pages and endpoints call them; nothing re-implements them.
 
-- `isLapsed(stall, today)`: label end = announcement date + 2 years. 113 was announced 28 Oct 2024. The 114 announcement date is still to look up. A lapsed stall shows no mark and rejects new awards.
-- `canAward(stall, browser, badges, today)`: stall listed and not lapsed; 1 to 4 badges; none already given by this browser; no award session by this browser for this stall this month.
+- `isLapsed(stall)`: not computed from dates (the lists carry no end date). True only for a short hand-picked list of demo stalls. A lapsed stall shows no mark and rejects new awards.
+- `canAward(stall, browser, badges, today)`: stall listed and not lapsed; 1 to 4 badges; none already given by this browser; no award session by this browser for this stall this month. The labelled demo stall skips the last two checks and can be reset.
 - `certifiedYears(stall)`: from a hand-confirmed match table, never automatic matching (see `Data/index.md` rules).
 - Milestone thresholds: first, 10, 25 per badge per stall. No cross-stall comparison anywhere.
 

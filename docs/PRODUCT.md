@@ -13,7 +13,7 @@ The rules every screen, endpoint and seed script must keep. Each one traces to a
 3. **Strict gate.** Only stalls on the 113 and 114 lists and restaurants on the 優/良 list (chains removed) appear and can receive badges. A lapsed stall stays listed with its history, loses the mark, and cannot receive new badges until it renews. Wording is "label ended", never "failed".
 4. **Certified or not, nothing finer.** Show only that a stall or restaurant is officially certified. The gold/silver (金質/銀質) and 優/良 levels are never shown, sorted, ranked or filtered by; the data keeps them but the UI ignores them.
 5. **One person, one count per badge.** Up to four badges in one award; each badge once per person and stall, ever; one award session per person and stall per month. Stall counts are people per badge; the city counter counts badges newly given this month.
-6. **No personal data, no free text.** Diners have no accounts: anonymous per-browser limits, no notes. Vendors sign in with a one-time code sent by email through Cloudflare Email Service (prototype only), only to save progress on a made-up venue (decided 24 Oct; shown as a toast in dev). New vendor venues are made up.
+6. **No personal data, no free text.** Diners have no accounts: anonymous per-browser limits, no notes. Vendors have no sign-in either: a made-up practice venue is tied to the browser, with a resume link to pick it up elsewhere (decided 24 Oct; no email address is ever collected). New vendor venues are made up.
 7. **Colour is never the only signal.** Every badge shows shape, icon and text label, including in filters, counts and the share card.
 8. **Label what is simulated.** Seed votes, made-up venues, visit-request routing and status, streaks and seed-vote milestones carry a "simulated" tag in the UI and the README.
 9. **Anything a voter might try must work**, on both the diner and vendor sides. Only steps that need the city itself (issuing the mark, receiving visit requests) are simulated.
@@ -23,9 +23,9 @@ The rules every screen, endpoint and seed script must keep. Each one traces to a
 What is missing or unverified today. Remove an item when it is fixed.
 
 - **No app code yet.** `docs/ARCHITECTURE.md` describes the proposed stack and API; nothing is scaffolded.
-- **Vendor sign-in and personal data.** The one-time code goes to an email address, which is personal data and the organiser forbids real personal data. Decide: store only a hash (or nothing) of the address, say so in the UI and README, and tell testers to use a throwaway address. Also open: what a signed-in vendor can do beyond saving a made-up venue's progress.
 - **Certified-year matching not done.** Years must come from `reg_root` plus name across lists, confirmed by hand. Only 好吸 (Nanjichang 112, Jingmei 114) is a candidate; `A-200241365-00000-0` is a false match (two unrelated stalls).
-- **Lapse date is an estimate.** The lists carry no expiry date. 113 labels were announced 28 Oct 2024, so they end about 28 Oct 2026, during the public vote. Decide the rule (announcement + 2 years) in code, in one place.
+- **Lapse date is an estimate, so it is not computed.** The lists carry no expiry date, and 113 labels (237 stalls) would end about 28 Oct 2026, during the public vote. For the MVP no stall lapses automatically: show "certified in 113 (2024)". Only a few hand-picked demo stalls show "label ended". Revisit when the department publishes end dates.
+- **Demo stall.** One labelled made-up stall, exempt from the per-person limits and resettable, so the award flow can be shown repeatedly on stage. Not built yet.
 - **Seed votes not generated.** They must look real: no seating badges on stalls without seating, and we have no seated/takeaway data.
 - **Readiness form currency unconfirmed.** The check mirrors the 114 form (`Data/004-assessment-form-114.pdf`); confirm with the department that it is current.
 - **Vote stuffing.** Per-browser limits are easy to bypass. Say so in the README.
@@ -60,6 +60,8 @@ Should:
 8. Generated share card image.
 9. News feed with fixed positive reactions. If trimmed, keep "newly certified" with reactions (all real data).
 
+**Cut order if time runs short (decided 24 Oct).** Scope stays full (516 stalls, 876 restaurants, all five vendor parts). Cut in this order: vendor preview, registration walkthrough, saved progress on the vendor side. Keep find my stall, the readiness check and the visit request until last; restaurants and share previews stay.
+
 **Build order.** The vendor side runs alongside Must 1 to 4, not after. If short of time, build vendor part 4 (find my stall) first, since it reuses diner data and components, then parts 1 to 3.
 
 ### Submission checklist (README must include)
@@ -79,7 +81,10 @@ Team decisions that shape the build. The PRD below already reflects them; this l
 - **No free-text notes.**
 - **"Easy to Get In" works like the other badges.** Diners award it, never the vendor, with a short hint like the others. It recognises physical access (for example a cramped market layout that still works for wheelchair users or older people). Community experience, not an inspection.
 - **Certified or not, nothing finer** (replaces "tier is shown, never sorted"). Gold/silver for stalls and 優/良 for restaurants are consolidated into one "Officially certified" mark; levels are never displayed.
-- **Vendor sign-in.** Vendors sign in with a one-time code sent to an email address (a toast in dev). It applies to made-up venues only: the find-my-stall view of real stalls stays read-only and needs no sign-in, so nobody can claim a real stall. Diners stay anonymous. Open points are under Known gaps.
+- **No vendor sign-in** (replaces the emailed one-time code). A made-up practice venue belongs to the browser, with a resume link to open it elsewhere. No email address or other personal data is collected, and no email-delivery risk on demo day. The find-my-stall view of real stalls stays read-only, so nobody can claim a real stall. Diners stay anonymous.
+- **Demo flow.** The diner leads the 2-minute demo: award badges, then switch to the vendor pane and see the stall's "this month" figure move. A labelled demo stall, exempt from the per-person limits and resettable, lets the award flow be shown repeatedly. Real stalls keep the real rules.
+- **No auto-lapse.** Lapse is not computed from the estimated end date, because about half the list (the 113 stalls) would flip to "label ended" mid-vote. Stalls show their certified years; a few hand-picked demo stalls show "label ended".
+- **Scope and cut order.** Restaurants and the full five-part vendor side stay in the MVP. If time runs short, cut the vendor preview, then the registration walkthrough, then saved vendor progress.
 - **Share card.** Step 1 (build first): a stable link per stall with Open Graph title, description and image, plus a share button (Web Share API, LINE and copy-link fallbacks). Step 2 (if time): a generated card image with stall name, market, the official mark with certification year, and the community badges with shape, icon and label. It carries the "unofficial, built on public Health Department lists" line and no personal data, rankings or ranking-like counts.
 - **Dual entry.** The home screen has two doors: "I'm a diner" and "I run a food stall". Both are working apps on a shared backend; the demo shows them side by side (two panes on desktop, or two phones), for example a badge awarded in the diner pane appearing in that stall's vendor view.
 - **Vendor side is functional, not a mockup.** Five parts:
