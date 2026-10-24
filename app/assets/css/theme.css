@@ -1,0 +1,82 @@
+/* THEME: every colour, size and shape you may want to tweak lives in this file. */
+
+@theme static {
+  --font-sans: 'Noto Sans TC', 'PingFang TC', 'Microsoft JhengHei', system-ui, sans-serif;
+
+  /* Brand palette (500 = Moss). Nuxt UI's primary points at this. */
+  --color-moss-50: #f0f6f2;
+  --color-moss-100: #dceadf;
+  --color-moss-200: #bad5c3;
+  --color-moss-300: #8db89d;
+  --color-moss-400: #5d9275;
+  --color-moss-500: #2f5a43;
+  --color-moss-600: #274b38;
+  --color-moss-700: #213e2f;
+  --color-moss-800: #1b3226;
+  --color-moss-900: #16281f;
+  --color-moss-950: #0c1611;
+}
+
+:root {
+  /* Size: base text. Everything in rem scales with it (bigger = easier to read on stage). */
+  --sb-font-size: 19px;
+
+  /* Surfaces */
+  --sb-bg: #f6f3ea;
+  --sb-sage: #e4ece0;
+  --sb-ink: #1e2a24;
+  --sb-ink-soft: #4a5a51;
+  --sb-moss: #2f5a43;
+  --sb-simulated: #8a5a00;
+  --sb-simulated-bg: #fdf0cf;
+
+  /* Shape: soft, slightly uneven corners */
+  --sb-radius-card: 1.75rem 1.25rem 1.75rem 1.25rem;
+  --sb-radius-pill: 999px;
+  --ui-radius: 0.75rem;
+
+  /* Badge fills (the icon inside is always ink). Shapes live in BadgeMark.vue. */
+  --sb-badge-detour: #db6a41;
+  --sb-badge-sit: #e9b44c;
+  --sb-badge-time: #6fa58a;
+  --sb-badge-access: #4f86b8;
+
+  /* Map (applied on top of the Mapbox style; pins read these too) */
+  --sb-map-land: #f1eee3;
+  --sb-map-water: #cfe0dc;
+  --sb-map-park: #cfe3c8;
+  --sb-map-road: #ffffff;
+  --sb-map-label: #3a4a41;
+  --sb-map-pin: #2f5a43;
+  --sb-map-pin-active: #db6a41;
+
+  --ui-bg: var(--sb-bg);
+  --ui-text: var(--sb-ink);
+}
+
+html {
+  font-size: var(--sb-font-size);
+}
+
+body {
+  background: var(--sb-bg);
+  color: var(--sb-ink);
+  -webkit-font-smoothing: antialiased;
+}
+
+.sb-card {
+  background: var(--sb-sage);
+  border-radius: var(--sb-radius-card);
+}
+
+.sb-card-white {
+  background: #fff;
+  border-radius: var(--sb-radius-card);
+  box-shadow: 0 1px 0 rgb(30 42 36 / 6%), 0 8px 24px -12px rgb(30 42 36 / 18%);
+}
+
+/* Embedded panes (demo mode) hide the page chrome. */
+.sb-embed header.sb-header,
+.sb-embed footer.sb-footer {
+  display: none;
+}
