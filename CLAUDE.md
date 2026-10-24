@@ -13,7 +13,7 @@ Hackathon entry for the Taipei 市政 debug松: a mobile-first, Traditional Chin
 ## References
 
 - `Data/00n-<topic>.*`: data resources (pdf, md, csv, json). Numbered and listed in `Data/index.md`; never renumber.
-- Live PRD: https://claude.ai/artifact/3ZAHwjQXdJkwX9c1iGuasP (team copy; `docs/PRODUCT.md` is synced from it).
+- Live PRD: https://claude.ai/artifact/3ZAHwjQXdJkwX9c1iGuasP (read-only share copy; `docs/PRODUCT.md` is the source of truth and may be newer).
 - Organiser: https://puma.taipei/hackathon
 
 ## Guardrails (never break these)

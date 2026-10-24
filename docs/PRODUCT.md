@@ -2,7 +2,7 @@
 
 Principles, known gaps and roadmap first; the full PRD follows.
 
-> Synced from the live PRD (https://claude.ai/artifact/3ZAHwjQXdJkwX9c1iGuasP, rev 109, 24 Oct 2026) plus the team decisions recorded in CLAUDE.md the same day. When the two disagree, the newer dated decision wins; update the other copy in the same change.
+> This file is the source of truth. It started from the live PRD (https://claude.ai/artifact/3ZAHwjQXdJkwX9c1iGuasP, rev 109, 24 Oct 2026) plus the team decisions recorded in CLAUDE.md; the live doc is now a read-only share copy and may lag.
 
 ## Principles
 

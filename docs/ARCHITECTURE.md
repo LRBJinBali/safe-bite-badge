@@ -1,10 +1,10 @@
 # Architecture
 
-API, codebase structure and development notes. **No app code exists yet**: everything below is the proposed design. Update this file in the same change that makes it true (or changes it).
+API, codebase structure and development notes. **No app code exists yet**: the stack is decided; the data model, API, pages and layout below are proposals to review before implementation. Update this file in the same change that makes any of it true (or changes it).
 
-## Stack (proposed)
+## Stack (decided)
 
-The commands in `CLAUDE.md` and `.worktreeinclude` assume this stack. Confirm it when scaffolding, then drop "proposed".
+The commands in `CLAUDE.md` and `.worktreeinclude` assume this stack.
 
 | Layer | Choice | Why |
 | --- | --- | --- |
