@@ -74,7 +74,7 @@ Diner:
 
 | Method | Path | Purpose |
 | --- | --- | --- |
-| GET | `/api/markets` | Markets with stall counts (map and list) |
+| GET | `/api/markets` | Districts with venue counts (map and list; stalls grouped by their market's district) |
 | GET | `/api/stalls?market=&badge=` | Stalls in a market, optionally only those with a badge. Ordered by list row, never by certification level. |
 | GET | `/api/stalls/:id` | One stall: list data, certified years, lapsed flag, people per badge |
 | GET | `/api/stalls/:id/me` | What this browser has given, and whether it can award this month |

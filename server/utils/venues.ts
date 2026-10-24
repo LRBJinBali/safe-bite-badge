@@ -1,6 +1,7 @@
 import type { Venue, VenueKind } from '../../shared/types'
 import stallsRaw from '../../Data/006-stalls.json'
 import restaurantsRaw from '../../Data/007-restaurants.json'
+import { stallArea } from '../../shared/markets'
 
 interface RawStall { id: string, list_year: number, market: string, market_en: string, seq: number, name: string, reg_root: string }
 interface RawRestaurant { id: string, district: string, name: string, is_chain: boolean }
@@ -73,7 +74,8 @@ export function listVenues(opts: { kind?: VenueKind, group?: string, demo: boole
     base.push(...restaurants)
   if (opts.demo)
     base.unshift(...DEMO_VENUES.filter(v => !opts.kind || v.kind === opts.kind))
-  return opts.group ? base.filter(v => v.group === opts.group) : base
+  // A stall matches its market or its market's district.
+  return opts.group ? base.filter(v => v.group === opts.group || (v.kind === 'stall' && stallArea(v.group) === opts.group)) : base
 }
 
 export const allVenues = (demo: boolean) => listVenues({ demo })

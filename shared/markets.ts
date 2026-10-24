@@ -30,6 +30,25 @@ export const DISTRICT_POS: Record<string, { lat: number, lng: number }> = {
   文山區: { lat: 24.989, lng: 121.57 },
 }
 
+/** The district each real night market sits in. The made-up demo market has none and keeps its own pin. */
+export const MARKET_DISTRICT: Record<string, string> = {
+  士林: '士林區',
+  景美: '文山區',
+  饒河街: '松山區',
+  延三: '大同區',
+  雙城: '中山區',
+  大龍: '大同區',
+  艋舺: '萬華區',
+  臨江街: '大安區',
+  公館: '中正區',
+  梧州街: '萬華區',
+  廣州街: '萬華區',
+  西昌街: '萬華區',
+}
+
+/** Where a stall shows on the map and chips: its district, or the market itself when it has none. */
+export const stallArea = (market: string) => MARKET_DISTRICT[market] ?? market
+
 /** Vendors have no exact address: send the map app a text search instead. */
 export function googleMapsQueryUrl(name: string, group: string, kind: 'stall' | 'restaurant' = 'stall') {
   const q = kind === 'stall' ? `${name} ${group}夜市 台北` : `${name} ${group} 台北`

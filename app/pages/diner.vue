@@ -50,11 +50,15 @@ watch([group, kind, q, badge], () => {
 })
 
 const searching = computed(() => !!q.value.trim())
+/** Stall chips are districts; an old link may still name a single market. */
+const stallDistrict = computed(() => kind.value === 'stall' && group.value.endsWith('區'))
 const visible = computed(() => (venues.value ?? []).slice(0, shown.value))
 const heading = computed(() => {
   if (searching.value)
     return `搜尋「${q.value.trim()}」`
-  return `${group.value}${kind.value === 'stall' ? '夜市' : ''}`
+  if (kind.value === 'restaurant')
+    return group.value
+  return stallDistrict.value ? `${group.value}的夜市攤位` : `${group.value}夜市`
 })
 
 function chooseKind(k: VenueKind) {
@@ -127,7 +131,7 @@ async function choose(key: string) {
       <p class="text-lg text-[var(--sb-ink-soft)]">
         點一片葉子,看那一區的店。葉子上的數字是店家數量。
       </p>
-      <div class="flex flex-wrap gap-2" role="group" :aria-label="kind === 'stall' ? '夜市' : '行政區'">
+      <div class="flex flex-wrap gap-2" role="group" aria-label="行政區">
         <UButton v-for="g in groups" :key="g.key" size="lg" :variant="g.key === group ? 'solid' : 'soft'" :color="g.key === group ? 'primary' : 'neutral'" :aria-pressed="g.key === group" @click="choose(g.key)">
           {{ g.key }}
         </UButton>
@@ -162,7 +166,7 @@ async function choose(key: string) {
           {{ heading }}
         </h2>
         <div v-if="visible.length" class="grid gap-3 md:grid-cols-2">
-          <VenueRow v-for="v in visible" :key="v.id" :venue="v" :show-group="searching" />
+          <VenueRow v-for="v in visible" :key="v.id" :venue="v" :show-group="searching || stallDistrict" />
         </div>
         <p v-else-if="status !== 'pending'" class="sb-card p-6 text-xl">
           這個條件目前沒有店家,換個徽章或關鍵字試試。
@@ -175,7 +179,7 @@ async function choose(key: string) {
       </div>
       <p v-else class="sb-card flex items-center gap-3 p-6 text-xl">
         <UIcon name="i-lucide-map-pinned" class="size-8 shrink-0 text-[var(--sb-moss)]" />
-        先在上面選一個{{ kind === 'stall' ? '夜市' : '行政區' }},或直接搜尋店名。
+        先在上面選一個行政區,或直接搜尋店名。
       </p>
     </section>
   </div>

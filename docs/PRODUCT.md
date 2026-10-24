@@ -109,6 +109,7 @@ Team decisions that shape the build. The PRD below already reflects them; this l
 - **Demo mode and owner admin (24 Oct).** `/demo` runs a scripted two-pane walkthrough (diner left, vendor right, one automated award) on made-up venues that only show with the demo cookie; `/admin` is a private overview for the product owner. The lapsed example is a made-up stall, so no real stall is ever shown as "label ended".
 - **Demo fits one screen (24 Oct).** On a wide window `/demo` lays out as phone, caption and controls, phone, at a fixed design size scaled to fit the window, so nothing needs scrolling on a laptop or projector. Browser zoom does not work in every viewer, so the page has its own zoom (buttons, or `+` `-` `0`, also Cmd or Ctrl with those keys, remembered per browser) and a full-screen button. Narrow windows keep the single-phone tabs.
 - **Vendor location.** No exact stall addresses exist, so the location button opens a Google Maps text search from stall name and market; the Mapbox map stays market-level.
+- **Stalls grouped by district (24 Oct).** The diner map leaves and chips show Taipei districts for stalls as well as restaurants: each night market is mapped to its district (`MARKET_DISTRICT` in `shared/markets.ts`) and its stalls are listed under it with the market name on each row. An old link naming a single market still works. The made-up demo market has no district and keeps its own leaf.
 - **Design direction: clean and organic**, replacing "warm, playful" (see "Design direction" below).
 
 ## Vendor readiness check content
@@ -196,7 +197,7 @@ No email is ever sent: the code shows on screen and fills itself in, labelled si
 
 **Diner**
 
-1. Open the map or list of certified stalls, grouped by night market, and optionally filter by badge.
+1. Open the map or list of certified stalls, grouped by district (each stall shows its night market), and optionally filter by badge.
 2. Open a stall page and see its official mark (with certified years) and counts for the badges it has received (each shown with shape, icon and label; no zero counts).
 3. Award up to four badges in one go, each badge once per stall. There is no free-text note. After a revisit, come back once a month to add badges not yet given.
 4. See the stall's count and the city counter ("Taipei has received X badges this month") update.
