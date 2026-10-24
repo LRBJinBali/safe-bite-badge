@@ -116,7 +116,7 @@ async function choose(key: string) {
       </h2>
       <div class="flex flex-wrap gap-3" role="group" aria-label="類型">
         <UButton size="xl" icon="i-lucide-store" :variant="kind === 'stall' ? 'solid' : 'outline'" :color="kind === 'stall' ? 'primary' : 'neutral'" :aria-pressed="kind === 'stall'" @click="chooseKind('stall')">
-          夜市 <span class="text-base font-normal">Night markets</span>
+          夜市攤位 <span class="text-base font-normal">Night-market stalls</span>
         </UButton>
         <UButton size="xl" icon="i-lucide-utensils" :variant="kind === 'restaurant' ? 'solid' : 'outline'" :color="kind === 'restaurant' ? 'primary' : 'neutral'" :aria-pressed="kind === 'restaurant'" @click="chooseKind('restaurant')">
           餐廳 <span class="text-base font-normal">Restaurants</span>
@@ -135,7 +135,7 @@ async function choose(key: string) {
     </section>
 
     <section id="venue-list" class="scroll-mt-20 space-y-4">
-      <UInput v-model="search" size="xl" icon="i-lucide-search" placeholder="搜尋店名或夜市,例如:雞排" class="w-full" aria-label="搜尋店名" :ui="{ base: 'text-lg' }" />
+      <UInput v-model="search" size="xl" icon="i-lucide-search" placeholder="搜尋店名、夜市或行政區,例如:雞排、牛肉麵" class="w-full" aria-label="搜尋店名" :ui="{ base: 'text-lg' }" />
 
       <div class="space-y-2">
         <p class="text-lg font-bold">

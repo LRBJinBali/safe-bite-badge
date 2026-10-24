@@ -11,7 +11,7 @@ onMounted(() => setTimeout(() => {
 }, 2500))
 
 const steps = [
-  { icon: 'i-lucide-map-pin', zh: '找到攤位', en: 'Find a stall', text: '在地圖上挑一個夜市,打開喜歡的攤位。' },
+  { icon: 'i-lucide-map-pin', zh: '找到好店', en: 'Find an eatery', text: '在地圖上挑夜市或行政區,打開喜歡的攤位或餐廳。' },
   { icon: 'i-lucide-heart-handshake', zh: '送出徽章', en: 'Send badges', text: '每個攤位最多送四種,為它的好加油。' },
   { icon: 'i-lucide-store', zh: '攤商看見', en: 'The stall sees it', text: '攤商端會看到本月新收到的徽章。' },
 ]
@@ -35,10 +35,10 @@ const steps = [
         安心標章
       </h1>
       <p class="mx-auto max-w-2xl text-2xl font-bold leading-snug sm:text-3xl">
-        幫夜市攤位送上四種社區徽章,只慶祝、不批評
+        幫夜市攤位和餐廳送上四種社區徽章,只慶祝、不批評
       </p>
       <p class="text-base text-[var(--sb-ink-soft)] sm:text-lg">
-        Award four community badges to night-market stalls. We only celebrate.
+        Award four community badges to night-market stalls and restaurants. We only celebrate.
       </p>
       <p v-if="counter?.total" class="inline-flex flex-wrap items-center justify-center gap-x-2 rounded-2xl bg-white px-4 py-2 text-base sm:text-lg font-bold text-[var(--sb-moss)] shadow-sm">
         <UIcon name="i-lucide-sparkles" class="size-5" />
@@ -70,7 +70,7 @@ const steps = [
           </div>
         </div>
         <p class="text-xl leading-snug">
-          逛夜市、挑攤位,送出徽章為它加油。不用註冊。
+          逛夜市、找餐廳,送出徽章為它加油。不用註冊。
         </p>
         <span class="inline-flex w-fit items-center gap-2 rounded-full bg-white px-6 py-3 text-xl font-black text-[var(--sb-moss)]">
           開始逛 Start <UIcon name="i-lucide-arrow-right" class="size-6 transition group-hover:translate-x-1" />

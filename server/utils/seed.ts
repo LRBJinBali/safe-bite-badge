@@ -14,7 +14,9 @@ export const SEED_PREFIX = 'seed-'
 const PRNG_SEED = 20261024
 const DAYS = 60
 const STALL_SHARE = 0.35
-const RESTAURANT_SHARE = 0.1
+const RESTAURANT_SHARE = 0.4
+const HOT_RESTAURANTS = 10
+const WARM_RESTAURANTS = 40
 const HOT_STALLS = 7
 const WARM_STALLS = 25
 
@@ -82,6 +84,13 @@ export async function applyDemoSeed(db: D1Database) {
     row('DEMO-002', 1, 'sit', 2),
     row('DEMO-002', 2, 'sit', 1),
     row('DEMO-002', 1, 'access', 2),
+    // DEMO-R-001: a made-up restaurant, so the demo shows it is not only night markets
+    row('DEMO-R-001', 1, 'sit', 4),
+    row('DEMO-R-001', 2, 'sit', 3),
+    row('DEMO-R-001', 3, 'sit', 1),
+    row('DEMO-R-001', 1, 'time', 4),
+    row('DEMO-R-001', 2, 'time', 2),
+    row('DEMO-R-001', 1, 'access', 3),
   ]
   await insertAwards(db, rows)
 }
@@ -106,10 +115,11 @@ export async function runSeed(db: D1Database) {
   const chosenRestaurants = shuffle(restaurants).slice(0, Math.round(restaurants.length * RESTAURANT_SHARE))
 
   // Popularity is skewed on purpose: a few hot stalls reach the milestones, most have a handful of fans.
-  const plan = [...chosenStalls, ...chosenRestaurants].map((v, i) => {
+  const plan = [...chosenStalls, ...chosenRestaurants].map((v, n) => {
     const isStall = v.kind === 'stall'
-    const hot = isStall && i < HOT_STALLS
-    const warm = isStall && !hot && i < HOT_STALLS + WARM_STALLS
+    const i = isStall ? n : n - chosenStalls.length
+    const hot = i < (isStall ? HOT_STALLS : HOT_RESTAURANTS)
+    const warm = !hot && i < (isStall ? HOT_STALLS + WARM_STALLS : HOT_RESTAURANTS + WARM_RESTAURANTS)
     const people = hot && i < 2 ? 32 + Math.floor(rand() * 5) : hot ? 18 + Math.floor(rand() * 15) : warm ? 4 + Math.floor(rand() * 6) : 1 + Math.floor(rand() * 3)
     const canSit = isStall ? mayHaveSeating(v.name) : true
     const weights = Object.fromEntries(BADGE_KEYS.map(b => [b, 0.2 + rand() * 0.4 + (hot && rand() < 0.5 ? 0.3 : 0)])) as Record<BadgeKey, number>

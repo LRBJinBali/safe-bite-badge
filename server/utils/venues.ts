@@ -15,6 +15,7 @@ export const DEMO_MARKET = '示範夜市'
 const DEMO_VENUES: Venue[] = [
   { id: 'DEMO-001', kind: 'stall', name: '示範小吃攤(虛構)', group: DEMO_MARKET, groupEn: 'Demo Market', seq: 1, years: [112, 113, 114], lapsed: false, simulated: true },
   { id: 'DEMO-002', kind: 'stall', name: '示範滷味攤(虛構)', group: DEMO_MARKET, groupEn: 'Demo Market', seq: 2, years: [114], lapsed: false, simulated: true },
+  { id: 'DEMO-R-001', kind: 'restaurant', name: '示範小館(虛構)', group: '大安區', seq: 0, years: [], lapsed: false, simulated: true },
   { id: 'DEMO-LAPSED-001', kind: 'stall', name: '示範老攤(虛構・標章已結束)', group: DEMO_MARKET, groupEn: 'Demo Market', seq: 3, years: [112], lapsed: true, simulated: true },
 ]
 export const DEMO_STALL_ID = 'DEMO-001'
@@ -67,9 +68,11 @@ export function getVenue(id: string, demo: boolean): Venue | undefined {
 export function listVenues(opts: { kind?: VenueKind, group?: string, demo: boolean }): Venue[] {
   const base: Venue[] = []
   if (!opts.kind || opts.kind === 'stall')
-    base.push(...stalls, ...(opts.demo ? DEMO_VENUES : []))
+    base.push(...stalls)
   if (!opts.kind || opts.kind === 'restaurant')
     base.push(...restaurants)
+  if (opts.demo)
+    base.push(...DEMO_VENUES.filter(v => !opts.kind || v.kind === opts.kind))
   return opts.group ? base.filter(v => v.group === opts.group) : base
 }
 
