@@ -242,6 +242,12 @@ const placed = computed(() => {
 </template>
 
 <style>
+/* mapbox-gl.css forces position: relative on the container, which would collapse it to 0 height. */
+.sb-map .mapboxgl-map {
+  position: absolute;
+  inset: 0;
+}
+
 .sb-pin {
   display: block;
   padding: 0;
