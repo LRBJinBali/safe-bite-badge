@@ -19,6 +19,7 @@ Strict gate for the MVP: only officially certified eateries appear and can recei
 ## Decisions (24 Oct, from the team)
 
 - **Certification history.** Record each stall's certified years in its profile (for example 112, 113, 114) and celebrate multi-year streaks. A recently lapsed stall loses its badge display, stays listed as "lapsed" with its history, and cannot receive new badges until it renews. Wording is "label ended", never "failed".
+- **Voting rule (24 Oct, replaces "one vote per person, stall, badge and month").** A person can give several badges (up to four) to a stall in one award, but each badge only once per stall: a person counts once per badge per stall, so nobody can pile up counts. After a revisit they can come back once a month (one award session per person and stall per month) and add badges they haven't given yet; they cannot repeat a badge, and badges are never taken away ("only celebrate"). Counts on the stall page are people per badge; the city counter and the vendor "this month" figures count badges newly given that month. Anonymous per-browser limits, so the README still says this is easy to bypass.
 - **No free-text notes.** Badges are awarded without a note field (no personal data, no negative text).
 - **"Easy to Get In" works like the other badges.** Diners award it, never the vendor, and it has a short hint like the others. It recognises physical access, such as a cramped market layout that still works for wheelchair users or older people. It is community experience, not an inspection.
 - **Tier is shown, never sorted.** Show 金質/銀質 as the official fact on each stall. Never sort, rank or filter by it.
@@ -56,8 +57,8 @@ Strict gate for the MVP: only officially certified eateries appear and can recei
 
 Must (live, working):
 1. List or market-level map of all 516 stalls from the 113 and 114 lists, grouped by market, with the single "Officially certified" mark. The 112 list (243 stalls, labels already ended) is history only: it feeds certified years and lapsed stalls.
-2. Award up to four badges to a stall (no free-text note).
-3. Stall page with badge counts per badge; one vote per person, stall, badge and month.
+2. Award up to four badges to a stall in one go (no free-text note).
+3. Stall page with badge counts per badge; one award per person, stall and badge, ever, and one award session per person and stall per month (see Decisions).
 4. City counter: "Taipei has received X badges this month".
 5. Share link per stall with Open Graph preview for LINE and Messenger, plus a share button (share card step 1).
 6. Vendor side: "find my stall" vendor view, readiness check, registration walkthrough and visit request with status, all saved to the backend (see Decisions). Made-up venues for new stalls; visit routing simulated.
@@ -67,7 +68,7 @@ Should:
 8. Generated share card image (share card step 2).
 9. News feed: newly certified, streaks and badge milestones, with fixed positive reactions (see Decisions). If trimmed, keep newly certified.
 
-If time: restaurants with the 優/良 mark (needs address geocoding; run a 20-address test first).
+If time: independent restaurants with the 優/良 mark (876 after removing chains and institutional venues; official list in hand; district-level listing needs no geocoding, a map needs address geocoding, run a 20-address test first).
 
 Anything a voter might try must work, on both the diner and vendor sides. Only steps that need the city itself (issuing the mark, receiving visit requests) are simulated, and labelled so.
 
@@ -121,7 +122,8 @@ Real data:
 - **Parsed dataset:** `Data/stalls.csv` and `Data/stalls.json`, 759 rows (243 + 237 + 279) parsed from the three official PDFs. Columns: id, list_year (ROC), list_year_ce, market, market_en, seq, name, registration, reg_root, tier. Counts match the PDFs per market and tier. The older team-compiled CSV is not in the folder.
 - The three rounds cover different markets, so there is almost no overlap: no stall is on all three lists. 好吸 appears at Nanjichang (112) and Jingmei (114) with the same root `A-200193596` but different endings (one business, two stalls). `A-200241365-00000-0` is on two different stalls (香腸炒米腸 in Ningxia 112, 烤黑輪片 in Raohe 114).
 - Official 114 list columns: number, market, stall name, food business registration number, result. No address, no stall position.
-- Restaurant 優/良 grading list (1,686 venues on the team's compiled list; unchecked).
+- **Restaurant 優/良 grading list (official, downloaded 24 Oct):** `Data/臺北市通過餐飲衛生管理分級評核業者.csv`, from the Taipei Health Department's open dataset (https://data.gov.tw/dataset/145738, Government Open Data Licence, updated yearly, last updated 13 Oct 2026). 1,686 venues (1,609 優, 77 良), columns: district code, name, registration number, address, result. No certification year, so no streaks for restaurants. Registration numbers are unique here.
+- **Chains and institutional venues are removed from the demo (decision 24 Oct).** `scripts/parse_restaurants.py` writes `Data/restaurants.csv` and `restaurants.json` with an `is_chain` flag and a `chain_reason`; the app lists only `is_chain = false`. Flagged: a registration root covering 3 or more addresses (579), a brand at 4 or more addresses such as Q Burger (50), a short known-chain list (16), and institutional venues, meaning school kitchens, hospital and hotel outlets, airport counters, care homes and co-ops (165). Result: 810 flagged, 876 kept (812 優, 64 良). Flagged rows stay in the file so the rule can be reviewed. A proper filtering system (for example a chain or franchise field, or letting the Health Department mark them) is post-MVP, README only.
 
 Data rules:
 - **The registration number is NOT a unique key.** It repeats within a list (112: 243 rows, 238 distinct numbers, for example 乾燒蛤 and 鹽烤鮮蝦 in Ningxia share `A-200063639-00000-6`; 113: 237 rows, 235 distinct) and across lists. Use `id` = list year + market + row number (for example `114-士林-012`) as the stall key, and keep the registration number as a field. A business is the registration root (`reg_root`), which can own several stalls. Stall names also repeat (for example "大腸包小腸" three times in Shilin).
