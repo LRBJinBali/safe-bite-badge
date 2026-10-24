@@ -72,7 +72,7 @@ export function listVenues(opts: { kind?: VenueKind, group?: string, demo: boole
   if (!opts.kind || opts.kind === 'restaurant')
     base.push(...restaurants)
   if (opts.demo)
-    base.push(...DEMO_VENUES.filter(v => !opts.kind || v.kind === opts.kind))
+    base.unshift(...DEMO_VENUES.filter(v => !opts.kind || v.kind === opts.kind))
   return opts.group ? base.filter(v => v.group === opts.group) : base
 }
 
