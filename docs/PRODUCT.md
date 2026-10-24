@@ -10,7 +10,7 @@ The rules every screen, endpoint and seed script must keep. Each one traces to a
 
 1. **Only celebrate.** No negative reviews, star ratings, rankings, "most/top" or comparisons between stalls. Badges are given, never taken away. Absence is never marked: no zero counts, no "not yet".
 2. **Cite, never certify.** The "Officially certified" mark comes only from the Health Department's lists. We never issue, re-create or imply it. The UI says plainly that the product is unofficial and built on public Health Department lists.
-3. **Strict gate.** Only stalls on the 113 and 114 lists appear and can receive badges. A lapsed stall stays listed with its history, loses the mark, and cannot receive new badges until it renews. Wording is "label ended", never "failed".
+3. **Strict gate.** Only stalls on the 113 and 114 lists and restaurants on the 優/良 list (chains removed) appear and can receive badges. A lapsed stall stays listed with its history, loses the mark, and cannot receive new badges until it renews. Wording is "label ended", never "failed".
 4. **Tier is shown, never sorted.** 金質/銀質 (and 優/良) appear on the stall page and share card as a fact. Never sort, rank or filter by it, and never show it on the map or list.
 5. **One person, one count per badge.** Up to four badges in one award; each badge once per person and stall, ever; one award session per person and stall per month. Stall counts are people per badge; the city counter counts badges newly given this month.
 6. **No personal data, no free text.** No accounts, no notes, anonymous per-browser limits. New vendor venues are made up.
@@ -47,7 +47,7 @@ What is missing or unverified today. Remove an item when it is fixed.
 
 Must (live, working):
 
-1. List or market-level map of all 516 stalls (113 and 114 lists), grouped by market, with the single "Officially certified" mark. The 112 list is history only: it feeds certified years and lapsed stalls.
+1. List or market-level map of all 516 stalls (113 and 114 lists), grouped by market, plus the 876 independent 優/良 restaurants (chains and institutional venues removed), grouped by district, all with the single "Officially certified" mark. The 112 list is history only: it feeds certified years and lapsed stalls. Restaurants have no certification year, so no streaks or lapse logic for them; a district list needs no geocoding, a map would (run a 20-address test first).
 2. Award up to four badges to a stall in one go (no note).
 3. Stall page with people-per-badge counts; voting rule as in Principles 5.
 4. City counter: "Taipei has received X badges this month".
@@ -59,10 +59,6 @@ Should:
 7. Badge filters (show only stalls with a chosen badge, by shape, icon and label).
 8. Generated share card image.
 9. News feed with fixed positive reactions. If trimmed, keep "newly certified" with reactions (all real data).
-
-If time:
-
-10. Independent restaurants with the 優/良 mark (876 after removing chains and institutional venues). A district-level list needs no geocoding; a map needs address geocoding, so run a 20-address test first.
 
 **Build order.** The vendor side runs alongside Must 1 to 4, not after. If short of time, build vendor part 4 (find my stall) first, since it reuses diner data and components, then parts 1 to 3.
 
@@ -194,11 +190,11 @@ The diner flow and the eatery owner flow both work live on one shared backend; o
 
 ## MVP scope
 
-The MVP covers all 516 stalls on the 113 and 114 lists, shown at market level, and runs both flows, diner and eatery owner, end to end. Anything a voter might try must work, on both sides; only steps that need the city itself are simulated and labelled.
+The MVP covers all 516 stalls on the 113 and 114 lists, shown at market level, and the 876 independent 優/良 restaurants, shown by district (decided 24 Oct: all venues minus chains and institutional venues such as McDonald's or school cafeterias), and runs both flows, diner and eatery owner, end to end. Anything a voter might try must work, on both sides; only steps that need the city itself are simulated and labelled.
 
 | Priority | Feature | Data |
 | --- | --- | --- |
-| Must | List or market-level map of all 516 stalls from both lists, grouped by market, with the single "Officially certified" mark | Real: 113 and 114 lists |
+| Must | List or market-level map of all 516 stalls (grouped by market) and 876 independent restaurants (grouped by district), with the single "Officially certified" mark | Real: 113 and 114 lists, 優/良 list with chains and institutional venues removed |
 | Must | Award up to four badges in one go (no free-text note) | Simulated seed data plus live votes |
 | Must | Stall page with counts for the badges it has received; one award per person, stall and badge, and one award session per person and stall per month | Simulated |
 | Must | City counter: "Taipei has received X badges this month" | Simulated |
@@ -207,7 +203,6 @@ The MVP covers all 516 stalls on the 113 and 114 lists, shown at market level, a
 | Should | Badge filters: show only stalls that have received a chosen badge | Simulated |
 | Should | Generated share card image: stall name, market, official mark with year and tier, and its badges by shape, icon and label | Real list data plus live badge counts |
 | Should | News feed: newly certified stalls, certification streaks and per-stall badge milestones, with fixed positive reactions. If trimmed, keep newly certified with reactions | Real list data for newly certified; streaks and seed-vote milestones simulated and tagged |
-| If time | Independent restaurants with the 優/良 mark, chains and institutional venues removed (876 venues; a district-level list needs no geocoding, a map does) | Real: official 優/良 list, chains removed |
 
 **Post-MVP ideas (README only):** monthly missions, district passport, monthly district picks, shared city goal, a seated/takeaway tag per stall, a proper chain/franchise filter for restaurants (for example a field the Health Department maintains).
 

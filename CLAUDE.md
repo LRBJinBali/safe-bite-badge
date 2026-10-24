@@ -22,7 +22,7 @@ Full reasoning in `docs/PRODUCT.md` → Principles.
 
 - Only celebrate: no negative reviews, ratings, rankings, "most/top", or comparisons between stalls. Never show zero counts or mark absence.
 - Never issue or imitate the official mark. Always show the "unofficial, built on public Health Department lists" line.
-- Strict gate: only stalls on the 113 and 114 lists appear or receive badges. Lapsed stalls: no mark, no new badges, wording "label ended", never "failed".
+- Strict gate: only stalls on the 113 and 114 lists and 優/良 restaurants (chains and institutional venues removed) appear or receive badges. Lapsed stalls: no mark, no new badges, wording "label ended", never "failed".
 - Show 金質/銀質 on the stall page and share card only; never sort, rank or filter by it.
 - Voting: up to four badges per award, each badge once per person and stall ever, one award session per person and stall per month. Rules live in one place (`docs/ARCHITECTURE.md` → Domain rules).
 - No accounts, no free text, no real personal data. New vendor venues are made up.

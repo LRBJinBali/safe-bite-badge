@@ -17,7 +17,7 @@ The commands in `CLAUDE.md` and `.worktreeinclude` assume this stack. Confirm it
 
 ## Data flow
 
-- **Official lists are static.** `Data/006-stalls.json` (and `007-restaurants.json` if time) is bundled at build time and read on the server. It never goes in D1 and is never edited by the app.
+- **Official lists are static.** `Data/006-stalls.json` and `Data/007-restaurants.json` (rows with `is_chain = false` only) are bundled at build time and read on the server. It never goes in D1 and is never edited by the app.
 - **Everything people do goes in D1:** badge awards, reactions, vendor venues, checklists, visit requests. Seed votes go in D1 too, with `simulated = 1`.
 - **Identity is a per-browser anonymous id**, a random UUID in an httpOnly cookie set on first request. No accounts, no personal data. Easy to bypass (clear cookies); the README says so.
 
