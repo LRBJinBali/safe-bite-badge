@@ -139,6 +139,7 @@ pnpm nuxi typecheck      # needs `pnpm cf-typegen` once
 pnpm run deploy          # build + wrangler deploy to production
 pnpm db:migrate:remote   # production D1 migrations
 python3 scripts/parse_restaurants.py   # regenerate Data/007-restaurants.*
+python3 scripts/parse_stalls.py        # regenerate Data/006-stalls.* (pip install pdfplumber)
 ```
 
 ## Deployment

@@ -318,7 +318,7 @@
   "market": "南機場",
   "market_en": "Nanjichang",
   "seq": 27,
-  "name": "邱記10 元碳烤",
+  "name": "邱記 10 元碳烤",
   "registration": "F-200233898-00000-7",
   "reg_root": "F-200233898",
   "tier": "gold"
@@ -378,7 +378,7 @@
   "market": "南機場",
   "market_en": "Nanjichang",
   "seq": 32,
-  "name": "好吃炸G",
+  "name": "好吃炸 G",
   "registration": "A-200183707-00000-5",
   "reg_root": "A-200183707",
   "tier": "gold"
@@ -558,7 +558,7 @@
   "market": "南機場",
   "market_en": "Nanjichang",
   "seq": 47,
-  "name": "快樂地瓜QQ 球",
+  "name": "快樂地瓜 QQ 球",
   "registration": "A-278962932-00000-5",
   "reg_root": "A-278962932",
   "tier": "gold"
@@ -2274,7 +2274,7 @@
   "market": "寧夏",
   "market_en": "Ningxia",
   "seq": 75,
-  "name": "邱記10 元起碳烤",
+  "name": "邱記 10 元起碳烤",
   "registration": "A-200125315-00000-6",
   "reg_root": "A-200125315",
   "tier": "gold"
@@ -2358,7 +2358,7 @@
   "market": "寧夏",
   "market_en": "Ningxia",
   "seq": 82,
-  "name": "悅來(甘蔗現壓、椰",
+  "name": "悅來(甘蔗現壓、椰子現剖)",
   "registration": "A-200063386-00000-5",
   "reg_root": "A-200063386",
   "tier": "gold"
@@ -5682,7 +5682,7 @@
   "market": "西昌街",
   "market_en": "Xichang",
   "seq": 1,
-  "name": "西昌街攤販集中場-蝦仁?(焿)、綜合?(焿)、花枝?(焿)",
+  "name": "蝦仁?(焿)、綜合?(焿)、花枝?(焿)",
   "registration": "A-200162431-00001-7",
   "reg_root": "A-200162431",
   "tier": "gold"
@@ -5694,7 +5694,7 @@
   "market": "西昌街",
   "market_en": "Xichang",
   "seq": 2,
-  "name": "西昌街攤販集中場-豆花",
+  "name": "豆花",
   "registration": "A-200162432-00001-8",
   "reg_root": "A-200162432",
   "tier": "gold"
@@ -5706,7 +5706,7 @@
   "market": "西昌街",
   "market_en": "Xichang",
   "seq": 3,
-  "name": "西昌街攤販集中場-刈包、肉粽、焢肉飯",
+  "name": "刈包、肉粽、焢肉飯",
   "registration": "A-200162433-00001-9",
   "reg_root": "A-200162433",
   "tier": "gold"
@@ -5718,7 +5718,7 @@
   "market": "西昌街",
   "market_en": "Xichang",
   "seq": 4,
-  "name": "西昌街攤販集中場-蔥油餅",
+  "name": "蔥油餅",
   "registration": "A-200162434-00001-0",
   "reg_root": "A-200162434",
   "tier": "gold"
@@ -5730,7 +5730,7 @@
   "market": "西昌街",
   "market_en": "Xichang",
   "seq": 5,
-  "name": "西昌街攤販集中場-油飯四神湯",
+  "name": "油飯四神湯",
   "registration": "A-200162436-00001-2",
   "reg_root": "A-200162436",
   "tier": "gold"
@@ -5742,7 +5742,7 @@
   "market": "西昌街",
   "market_en": "Xichang",
   "seq": 6,
-  "name": "西昌街攤販集中場-鍋貼",
+  "name": "鍋貼",
   "registration": "A-200162437-00001-3",
   "reg_root": "A-200162437",
   "tier": "gold"
@@ -5754,7 +5754,7 @@
   "market": "西昌街",
   "market_en": "Xichang",
   "seq": 7,
-  "name": "西昌街攤販集中場-米粉湯",
+  "name": "米粉湯",
   "registration": "A-200162438-00001-4",
   "reg_root": "A-200162438",
   "tier": "gold"
@@ -5790,7 +5790,7 @@
   "market": "士林",
   "market_en": "Shilin",
   "seq": 3,
-  "name": "A 冬瓜茶飲",
+  "name": "A冬瓜茶飲",
   "registration": "A-200218521-00001-9",
   "reg_root": "A-200218521",
   "tier": "gold"
@@ -5886,7 +5886,7 @@
   "market": "士林",
   "market_en": "Shilin",
   "seq": 11,
-  "name": "話拳寒天 Q 棒",
+  "name": "話拳寒天Q棒",
   "registration": "F-200079295-00002-8",
   "reg_root": "F-200079295",
   "tier": "gold"
@@ -5958,7 +5958,7 @@
   "market": "士林",
   "market_en": "Shilin",
   "seq": 17,
-  "name": "A－Be 阿伯仔潤餅捲",
+  "name": "A－Be阿伯仔潤餅捲",
   "registration": "A-200047869-00001-4",
   "reg_root": "A-200047869",
   "tier": "gold"
@@ -6450,7 +6450,7 @@
   "market": "士林",
   "market_en": "Shilin",
   "seq": 58,
-  "name": "好吸 HITS THE SPOT(士林大南店）",
+  "name": "好吸HITS THE SPOT(士林大南店）",
   "registration": "A-200218551-00001-2",
   "reg_root": "A-200218551",
   "tier": "gold"
@@ -6858,7 +6858,7 @@
   "market": "大龍",
   "market_en": "Dalong",
   "seq": 12,
-  "name": "黃金地瓜 QQ 球",
+  "name": "黃金地瓜 QQ球",
   "registration": "A-202311440-00001-5",
   "reg_root": "A-202311440",
   "tier": "gold"
@@ -7002,7 +7002,7 @@
   "market": "延三",
   "market_en": "Yansan",
   "seq": 5,
-  "name": "45 年老攤台灣土羊肉",
+  "name": "45年老攤台灣土羊肉",
   "registration": "A-202310689-00001-9",
   "reg_root": "A-202310689",
   "tier": "gold"
@@ -7374,7 +7374,7 @@
   "market": "延三",
   "market_en": "Yansan",
   "seq": 36,
-  "name": "快樂 QQ 球",
+  "name": "快樂 QQ球",
   "registration": "A-202309383-00001-8",
   "reg_root": "A-202309383",
   "tier": "gold"
@@ -7410,7 +7410,7 @@
   "market": "景美",
   "market_en": "Jingmei",
   "seq": 1,
-  "name": "蟹老闆 11 元壽司",
+  "name": "蟹老闆 11元壽司",
   "registration": "A-200172848-00001-0",
   "reg_root": "A-200172848",
   "tier": "gold"
@@ -7422,7 +7422,7 @@
   "market": "景美",
   "market_en": "Jingmei",
   "seq": 2,
-  "name": "邱記 10 元碳烤",
+  "name": "邱記10元碳烤",
   "registration": "A-200172844-00001-6",
   "reg_root": "A-200172844",
   "tier": "gold"
@@ -7470,7 +7470,7 @@
   "market": "景美",
   "market_en": "Jingmei",
   "seq": 6,
-  "name": "景美 QQ 涼圓&菜燕",
+  "name": "景美QQ涼圓&菜燕",
   "registration": "A-200172779-00001-3",
   "reg_root": "A-200172779",
   "tier": "gold"
@@ -7890,7 +7890,7 @@
   "market": "景美",
   "market_en": "Jingmei",
   "seq": 41,
-  "name": "Q 太郎炒泡麵",
+  "name": "Q太郎炒泡麵",
   "registration": "A-200238707-00000-6",
   "reg_root": "A-200238707",
   "tier": "gold"
@@ -7926,7 +7926,7 @@
   "market": "景美",
   "market_en": "Jingmei",
   "seq": 44,
-  "name": "微笑碳烤 15 元",
+  "name": "微笑碳烤15元",
   "registration": "A-202269869-00001-2",
   "reg_root": "A-202269869",
   "tier": "gold"
@@ -8022,7 +8022,7 @@
   "market": "景美",
   "market_en": "Jingmei",
   "seq": 52,
-  "name": "好吸 HITS THE SPOT",
+  "name": "好吸HITS THE SPOT",
   "registration": "A-200193596-00004-6",
   "reg_root": "A-200193596",
   "tier": "gold"
@@ -8214,7 +8214,7 @@
   "market": "雙城",
   "market_en": "Shuangcheng",
   "seq": 15,
-  "name": "快樂 QQ 球",
+  "name": "快樂 QQ球",
   "registration": "A-200158976-00001-6",
   "reg_root": "A-200158976",
   "tier": "gold"
@@ -8862,7 +8862,7 @@
   "market": "饒河街",
   "market_en": "Raohe St",
   "seq": 33,
-  "name": "QQ 王子地瓜球",
+  "name": "QQ王子地瓜球",
   "registration": "A-200063541-00002-0",
   "reg_root": "A-200063541",
   "tier": "gold"
