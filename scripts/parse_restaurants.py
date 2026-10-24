@@ -1,7 +1,7 @@
 """Parse the official Taipei 優/良 restaurant list and flag chains.
 
-Input:  Data/臺北市通過餐飲衛生管理分級評核業者.csv (data.gov.tw/dataset/145738)
-Output: Data/restaurants.csv and Data/restaurants.json, one row per venue.
+Input:  Data/005-restaurant-grading.csv (臺北市通過餐飲衛生管理分級評核業者.csv, data.gov.tw/dataset/145738)
+Output: Data/007-restaurants.csv and Data/007-restaurants.json, one row per venue.
 
 A venue is flagged is_chain (the "not for the demo" flag) when:
   - its registration root (first 11 characters) covers 3 or more distinct addresses, or
@@ -21,7 +21,8 @@ import sys
 from pathlib import Path
 
 DATA = Path(sys.argv[1]) if len(sys.argv) > 1 else Path(__file__).resolve().parent.parent / "Data"
-SRC = DATA / "臺北市通過餐飲衛生管理分級評核業者.csv"
+SRC = DATA / "005-restaurant-grading.csv"
+OUT = DATA / "007-restaurants"
 
 # Well-known chains that appear at only one address on this list, so the count rules miss them.
 KNOWN_CHAINS = re.compile(
@@ -84,11 +85,11 @@ def main():
         })
 
     fields = list(out[0])
-    with open(DATA / "restaurants.csv", "w", encoding="utf-8-sig", newline="") as f:
+    with open(OUT.with_suffix(".csv"), "w", encoding="utf-8-sig", newline="") as f:
         w = csv.DictWriter(f, fields)
         w.writeheader()
         w.writerows(out)
-    (DATA / "restaurants.json").write_text(json.dumps(out, ensure_ascii=False, indent=1), encoding="utf-8")
+    OUT.with_suffix(".json").write_text(json.dumps(out, ensure_ascii=False, indent=1), encoding="utf-8")
 
     kept = [r for r in out if not r["is_chain"]]
     print("total", len(out), "| chains removed", len(out) - len(kept), "| kept", len(kept))
