@@ -11,7 +11,7 @@ The commands in `CLAUDE.md` and `.worktreeinclude` assume this stack.
 | App | Nuxt 4 + Nuxt UI v4, VueUse, TypeScript | One codebase for pages, API routes and OG meta (SSR, so LINE and Messenger previews work) |
 | Hosting | Cloudflare Workers | Public URL, stays up through the vote (31 Oct 18:00) |
 | Database | Cloudflare D1 | Minimal shared backend: counts are the same for every viewer |
-| Files | Cloudflare R2 (only if the share card image is cached) | Generated card images |
+| Files | Cloudflare R2 (only if the share card image is cached; not bound yet, R2 is not enabled on the account) | Generated card images |
 | Package manager | pnpm | |
 | Lint | antfu eslint | |
 

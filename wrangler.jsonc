@@ -6,9 +6,6 @@
   "compatibility_flags": ["nodejs_compat"],
   "assets": { "directory": ".output/public" },
   "d1_databases": [
-    { "binding": "DB", "database_name": "safe-bite", "database_id": "local-placeholder", "migrations_dir": "server/database/migrations" }
-  ],
-  "r2_buckets": [
-    { "binding": "CARDS", "bucket_name": "safe-bite-cards" }
+    { "binding": "DB", "database_name": "safe-bite", "database_id": "1e78d233-4962-4dc2-b1b7-76019e078669", "migrations_dir": "server/database/migrations" }
   ]
 }
