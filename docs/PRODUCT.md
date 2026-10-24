@@ -13,7 +13,7 @@ The rules every screen, endpoint and seed script must keep. Each one traces to a
 3. **Strict gate.** Only stalls on the 113 and 114 lists and restaurants on the 優/良 list (chains removed) appear and can receive badges. A lapsed stall stays listed with its history, loses the mark, and cannot receive new badges until it renews. Wording is "label ended", never "failed".
 4. **Certified or not, nothing finer.** Show only that a stall or restaurant is officially certified. The gold/silver (金質/銀質) and 優/良 levels are never shown, sorted, ranked or filtered by; the data keeps them but the UI ignores them.
 5. **One person, one count per badge.** Up to four badges in one award; each badge once per person and stall, ever; one award session per person and stall per month. Stall counts are people per badge; the city counter counts badges newly given this month.
-6. **No personal data, no free text.** Diners have no accounts: anonymous per-browser limits, no notes. Vendors sign in with a one-time code (decided 24 Oct; shown as a toast in dev). New vendor venues are made up.
+6. **No personal data, no free text.** Diners have no accounts: anonymous per-browser limits, no notes. Vendors sign in with a one-time code sent by email, only to save progress on a made-up venue (decided 24 Oct; shown as a toast in dev). New vendor venues are made up.
 7. **Colour is never the only signal.** Every badge shows shape, icon and text label, including in filters, counts and the share card.
 8. **Label what is simulated.** Seed votes, made-up venues, visit-request routing and status, streaks and seed-vote milestones carry a "simulated" tag in the UI and the README.
 9. **Anything a voter might try must work**, on both the diner and vendor sides. Only steps that need the city itself (issuing the mark, receiving visit requests) are simulated.
@@ -23,7 +23,7 @@ The rules every screen, endpoint and seed script must keep. Each one traces to a
 What is missing or unverified today. Remove an item when it is fixed.
 
 - **No app code yet.** `docs/ARCHITECTURE.md` describes the proposed stack and API; nothing is scaffolded.
-- **Vendor sign-in undefined.** Vendors sign in with a one-time code, but what the code is sent to (email, SMS), what signing in unlocks, and how it fits "no claiming or editing" are not decided.
+- **Vendor sign-in and personal data.** The one-time code goes to an email address, which is personal data and the organiser forbids real personal data. Decide: store only a hash (or nothing) of the address, say so in the UI and README, and tell testers to use a throwaway address. Also open: what a signed-in vendor can do beyond saving a made-up venue's progress.
 - **Certified-year matching not done.** Years must come from `reg_root` plus name across lists, confirmed by hand. Only 好吸 (Nanjichang 112, Jingmei 114) is a candidate; `A-200241365-00000-0` is a false match (two unrelated stalls).
 - **Lapse date is an estimate.** The lists carry no expiry date. 113 labels were announced 28 Oct 2024, so they end about 28 Oct 2026, during the public vote. Decide the rule (announcement + 2 years) in code, in one place.
 - **Seed votes not generated.** They must look real: no seating badges on stalls without seating, and we have no seated/takeaway data.
@@ -79,7 +79,7 @@ Team decisions that shape the build. The PRD below already reflects them; this l
 - **No free-text notes.**
 - **"Easy to Get In" works like the other badges.** Diners award it, never the vendor, with a short hint like the others. It recognises physical access (for example a cramped market layout that still works for wheelchair users or older people). Community experience, not an inspection.
 - **Certified or not, nothing finer** (replaces "tier is shown, never sorted"). Gold/silver for stalls and 優/良 for restaurants are consolidated into one "Officially certified" mark; levels are never displayed.
-- **Vendor sign-in.** Vendors sign in with a one-time code (a toast in dev). Diners stay anonymous. Still to define: what the code is sent to, and what signing in unlocks (see Known gaps).
+- **Vendor sign-in.** Vendors sign in with a one-time code sent to an email address (a toast in dev). It applies to made-up venues only: the find-my-stall view of real stalls stays read-only and needs no sign-in, so nobody can claim a real stall. Diners stay anonymous. Open points are under Known gaps.
 - **Share card.** Step 1 (build first): a stable link per stall with Open Graph title, description and image, plus a share button (Web Share API, LINE and copy-link fallbacks). Step 2 (if time): a generated card image with stall name, market, the official mark with certification year, and the community badges with shape, icon and label. It carries the "unofficial, built on public Health Department lists" line and no personal data, rankings or ranking-like counts.
 - **Dual entry.** The home screen has two doors: "I'm a diner" and "I run a food stall". Both are working apps on a shared backend; the demo shows them side by side (two panes on desktop, or two phones), for example a badge awarded in the diner pane appearing in that stall's vendor view.
 - **Vendor side is functional, not a mockup.** Five parts:

@@ -19,7 +19,7 @@ The commands in `CLAUDE.md` and `.worktreeinclude` assume this stack.
 
 - **Official lists are static.** `Data/006-stalls.json` and `Data/007-restaurants.json` (rows with `is_chain = false` only) are bundled at build time and read on the server. It never goes in D1 and is never edited by the app.
 - **Everything people do goes in D1:** badge awards, reactions, vendor venues, checklists, visit requests. Seed votes go in D1 too, with `simulated = 1`.
-- **Identity is a per-browser anonymous id**, a random UUID in an httpOnly cookie set on first request. Diners have no accounts and no personal data. Vendors sign in with a one-time code (shown as a toast in dev); the delivery channel and what it unlocks are open (see `docs/PRODUCT.md` → Known gaps). The per-browser id is easy to bypass (clear cookies); the README says so.
+- **Identity is a per-browser anonymous id**, a random UUID in an httpOnly cookie set on first request. Diners have no accounts and no personal data. Vendors sign in with a one-time code sent by email (shown as a toast in dev) to save progress on a made-up venue; real stalls stay read-only with no sign-in. Store at most a hash of the address (see `docs/PRODUCT.md` → Known gaps). The per-browser id is easy to bypass (clear cookies); the README says so.
 
 ## Data model (D1, proposed)
 
