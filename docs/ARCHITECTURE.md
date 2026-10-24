@@ -11,6 +11,7 @@ The commands in `CLAUDE.md` and `.worktreeinclude` assume this stack.
 | App | Nuxt 4 + Nuxt UI v4, VueUse, TypeScript | One codebase for pages, API routes and OG meta (SSR, so LINE and Messenger previews work) |
 | Hosting | Cloudflare Workers | Public URL, stays up through the vote (31 Oct 18:00) |
 | Database | Cloudflare D1 | Minimal shared backend: counts are the same for every viewer |
+| Email | Cloudflare Email Service (Email Sending) | One-time vendor sign-in codes. Prototype only: no production-grade deliverability, rate limiting or abuse handling yet |
 | Files | Cloudflare R2 (only if the share card image is cached) | Generated card images |
 | Package manager | pnpm | |
 | Lint | antfu eslint | |
@@ -19,7 +20,7 @@ The commands in `CLAUDE.md` and `.worktreeinclude` assume this stack.
 
 - **Official lists are static.** `Data/006-stalls.json` and `Data/007-restaurants.json` (rows with `is_chain = false` only) are bundled at build time and read on the server. It never goes in D1 and is never edited by the app.
 - **Everything people do goes in D1:** badge awards, reactions, vendor venues, checklists, visit requests. Seed votes go in D1 too, with `simulated = 1`.
-- **Identity is a per-browser anonymous id**, a random UUID in an httpOnly cookie set on first request. Diners have no accounts and no personal data. Vendors sign in with a one-time code sent by email (shown as a toast in dev) to save progress on a made-up venue; real stalls stay read-only with no sign-in. Store at most a hash of the address (see `docs/PRODUCT.md` → Known gaps). The per-browser id is easy to bypass (clear cookies); the README says so.
+- **Identity is a per-browser anonymous id**, a random UUID in an httpOnly cookie set on first request. Diners have no accounts and no personal data. Vendors sign in with a one-time code sent by email through Cloudflare Email Service (shown as a toast in dev instead of sending) to save progress on a made-up venue; real stalls stay read-only with no sign-in. Store at most a hash of the address (see `docs/PRODUCT.md` → Known gaps). The per-browser id is easy to bypass (clear cookies); the README says so.
 
 ## Data model (D1, proposed)
 
